@@ -36,24 +36,41 @@
             <li tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur necessitatibus quidem animi, facilis nisi, temporibus explicabo incidunt deleniti consequuntur sint voluptatibus veniam accusantium nemo velit, iste dolorum dignissimos aliquid quibusdam.</li>
             <li tabindex="0">Nihil repellat doloribus doloremque deserunt est, officiis sed omnis odit earum consequuntur obcaecati illo sapiente. Dolorem molestias itaque, quam ducimus quod omnis accusamus, aut expedita soluta necessitatibus nisi saepe ad?</li>
             <li tabindex="0">
-                an
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, sed exercitationem deleniti mollitia, fugit, architecto incidunt magnam laudantium dolore ea veritatis quasi et odio. Minima animi quis ea voluptates vel?
                 <ul>
-                    <li tabindex="0">DARK</li>
+                    <li tabindex="0">lorem</li>
                     <li tabindex="0">AME</li>
                 </ul>
             </li>
         </ul>
-        <!-- NOTE: solution 2 -->
-        <div class="tasks">
-            <a href="" tabindex="0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores voluptas cupiditate nesciunt sequi odit iure voluptates veritatis aspernatur! Quo exercitationem delectus explicabo inventore harum est nihil aliquam accusantium possimus optio.</a><a href="" tabindex="0">Itaque ex fuga esse rerum voluptate iusto asperiores pariatur harum repellendus, dolorem culpa enim deleniti quo accusamus cum assumenda nostrum dolorum corrupti expedita aliquam laboriosam doloribus dicta. Veniam, officiis magni!</a><a href="" tabindex="0">Aliquam error laudantium dignissimos quia dicta repellat sunt, sequi accusamus doloremque nesciunt dolor corporis fugiat nulla quaerat incidunt facilis, aspernatur placeat et officiis beatae, harum eligendi. Quas sapiente quasi repellat!</a><a href="" tabindex="0">Ea, quisquam et nostrum unde accusantium illo cum, harum amet odit in possimus dolorem assumenda soluta provident praesentium nam dolores ad aperiam inventore rerum id corporis. Dolor necessitatibus distinctio atque.</a>
-        </div>
     </div>
 </body>
 <script>
     // TODO: (onFocus)Tab -> Indent Outdent
     // TODO: (onFocus)Enter -> New Task
-    // TODO: (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
     // TODO: dblClick -> Rename
-    
+
+
+    document.addEventListener("keydown", event => {
+        event.preventDefault();
+        console.log(event.keyCode);
+        // NOTE: (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
+        const focus = document.activeElement;
+        // TODO: dblCheck delete keyCode in Windows
+        if (focus){
+            // Windows
+            if (event.ctrlKey)
+                if (event.shiftKey)
+                    if (event.keyCode == 8)
+                        console.log("Remove a task")
+
+            // Mac
+            if(event.metaKey)
+                if (event.keyCode == 8)
+                    console.log("Remove a task")
+
+            
+        }
+    })
 </script>
 </html>
