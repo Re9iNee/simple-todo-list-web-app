@@ -100,9 +100,9 @@
     }
 
     function deactivateModal(id, event) {
-        const target = event.target;
+        const target = event.target
         const modal = document.getElementById(id);
-        if (target !== modal){
+        if (target == document.body){
             modal.classList.remove("active");
             const container = document.getElementsByClassName("container")[0];
             container.classList.remove("modalActivated");
