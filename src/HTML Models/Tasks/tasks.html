@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0 auto;
+            height: 100vh;
+            height: calc(var(--vh, 1vh) * 100);
+            width: 100vw;
+        }
+
+
+        li:focus {
+            background-color: yellow;
+        }
+
+        a:focus {
+            background-color: green;
+        }
+    </style>
+    <title>Tasks</title>
+</head>
+<body>
+    <div class="container">
+        <!-- NOTE: solution 1 -->
+        <ul>
+            <li tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur necessitatibus quidem animi, facilis nisi, temporibus explicabo incidunt deleniti consequuntur sint voluptatibus veniam accusantium nemo velit, iste dolorum dignissimos aliquid quibusdam.</li>
+            <li tabindex="0">Nihil repellat doloribus doloremque deserunt est, officiis sed omnis odit earum consequuntur obcaecati illo sapiente. Dolorem molestias itaque, quam ducimus quod omnis accusamus, aut expedita soluta necessitatibus nisi saepe ad?</li>
+            <li tabindex="0">
+                an
+                <ul>
+                    <li tabindex="0">DARK</li>
+                    <li tabindex="0">AME</li>
+                </ul>
+            </li>
+        </ul>
+        <!-- NOTE: solution 2 -->
+        <div class="tasks">
+            <a href="" tabindex="0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores voluptas cupiditate nesciunt sequi odit iure voluptates veritatis aspernatur! Quo exercitationem delectus explicabo inventore harum est nihil aliquam accusantium possimus optio.</a><a href="" tabindex="0">Itaque ex fuga esse rerum voluptate iusto asperiores pariatur harum repellendus, dolorem culpa enim deleniti quo accusamus cum assumenda nostrum dolorum corrupti expedita aliquam laboriosam doloribus dicta. Veniam, officiis magni!</a><a href="" tabindex="0">Aliquam error laudantium dignissimos quia dicta repellat sunt, sequi accusamus doloremque nesciunt dolor corporis fugiat nulla quaerat incidunt facilis, aspernatur placeat et officiis beatae, harum eligendi. Quas sapiente quasi repellat!</a><a href="" tabindex="0">Ea, quisquam et nostrum unde accusantium illo cum, harum amet odit in possimus dolorem assumenda soluta provident praesentium nam dolores ad aperiam inventore rerum id corporis. Dolor necessitatibus distinctio atque.</a>
+        </div>
+    </div>
+</body>
+<script>
+    
+</script>
+</html>
