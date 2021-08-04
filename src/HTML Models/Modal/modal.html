@@ -44,9 +44,9 @@
 
 
         .modal {
-            width: 400px;
-            height: 200px;
-            background-color: coral;
+            width: 500px;
+            height: 300px;
+            background-color: rgb(190, 190, 190);
             border-radius: 20px;
             position: absolute;
             transform: translateY(-100vh);
@@ -54,8 +54,14 @@
 
 
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        div.form-btn-group {
+            display: flex;
+            justify-content: space-around;
         }
 
         .modal.active {
@@ -81,7 +87,15 @@
         </div>
     </div>
     <button id="modalToggle" z-index="99">Activate Modal</button>
-    <div class="modal" id="myModal"></div>
+    <div class="modal" id="myModal">
+        <form action="" id="modalForm">
+            <input type="text" name="" id="">
+            <div class="form-btn-group">
+                <button class="btn-primary">Save</button>
+                <button class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
 </body>
 <script>
     const modalButton = document.getElementById("modalToggle")
