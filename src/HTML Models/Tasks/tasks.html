@@ -50,14 +50,12 @@
     // TODO: (onFocus)Enter -> New Task
     // TODO: dblClick -> Rename
 
-
     document.addEventListener("keydown", event => {
+        const activeEl = document.querySelector("li:focus");
         event.preventDefault();
-        console.log(event.keyCode);
         // NOTE: (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
-        const focus = document.activeElement;
         // TODO: dblCheck delete keyCode in Windows
-        if (focus){
+        if (activeEl){
             // Windows
             if (event.ctrlKey)
                 if (event.shiftKey)
