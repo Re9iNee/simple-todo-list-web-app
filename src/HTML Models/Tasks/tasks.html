@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,14 +30,21 @@
     </style>
     <title>Tasks</title>
 </head>
+
 <body>
-    <div class="container">
+    <div class="container" id="taskContainer">
         <!-- NOTE: solution 1 -->
         <ul>
-            <li tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur necessitatibus quidem animi, facilis nisi, temporibus explicabo incidunt deleniti consequuntur sint voluptatibus veniam accusantium nemo velit, iste dolorum dignissimos aliquid quibusdam.</li>
-            <li tabindex="0">Nihil repellat doloribus doloremque deserunt est, officiis sed omnis odit earum consequuntur obcaecati illo sapiente. Dolorem molestias itaque, quam ducimus quod omnis accusamus, aut expedita soluta necessitatibus nisi saepe ad?</li>
+            <li tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur necessitatibus quidem
+                animi, facilis nisi, temporibus explicabo incidunt deleniti consequuntur sint voluptatibus veniam
+                accusantium nemo velit, iste dolorum dignissimos aliquid quibusdam.</li>
+            <li tabindex="0">Nihil repellat doloribus doloremque deserunt est, officiis sed omnis odit earum
+                consequuntur obcaecati illo sapiente. Dolorem molestias itaque, quam ducimus quod omnis accusamus, aut
+                expedita soluta necessitatibus nisi saepe ad?</li>
             <li tabindex="0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, sed exercitationem deleniti mollitia, fugit, architecto incidunt magnam laudantium dolore ea veritatis quasi et odio. Minima animi quis ea voluptates vel?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, sed exercitationem deleniti mollitia,
+                fugit, architecto incidunt magnam laudantium dolore ea veritatis quasi et odio. Minima animi quis ea
+                voluptates vel?
                 <ul>
                     <li tabindex="0">lorem</li>
                     <li tabindex="0">AME</li>
@@ -47,15 +55,15 @@
 </body>
 <script>
     // TODO: (onFocus)Tab -> Indent Outdent
-    
+
     // TODO: dblClick -> Rename
 
     document.addEventListener("keydown", event => {
         const activeEl = document.querySelector("li:focus");
         event.preventDefault();
-        // NOTE: (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
+        // (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
         // TODO: dblCheck delete keyCode in Windows
-        if (activeEl){
+        if (activeEl) {
             // Windows
             if (event.ctrlKey)
                 if (event.shiftKey)
@@ -63,16 +71,33 @@
                         console.log("Remove a task")
 
             // Mac
-            if(event.metaKey)
+            if (event.metaKey)
                 if (event.keyCode == 8)
                     console.log("Remove a task")
 
-            // NOTE: (onFocus)Enter -> New Task
+            // (onFocus)Enter -> New Task
+            // TODO: dblCheck enter KeyCode in windows
             if (event.keyCode == 13)
                 console.log("New Task")
 
-            
+
+            if (event.keyCode == 9) {
+                // on tab keyDown
+                const taskContainer = document.getElementById("taskContainer");
+                let shouldIndent;
+                const grandParentEl = activeEl.parentElement.parentElement;
+                if (grandParentEl == taskContainer) {
+                    shouldIndent = true
+                    // Indent
+                    debugger
+                } else if (grandParentEl.tagName == "LI") {
+                    shouldIndent = false;
+                    // Outdent
+                    debugger
+                }
+            }
         }
     })
 </script>
+
 </html>
