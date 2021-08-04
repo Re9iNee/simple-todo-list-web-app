@@ -50,6 +50,9 @@
                     <li tabindex="0">AME</li>
                 </ul>
             </li>
+            <li tabindex="0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste tempore quidem odio omnis
+                voluptate dicta sequi. Repudiandae quas qui animi nihil, commodi blanditiis quisquam minus rerum
+                voluptatem nostrum dolorem. Quidem?</li>
         </ul>
     </div>
 </body>
@@ -87,11 +90,23 @@
                 let shouldIndent;
                 const grandParentEl = activeEl.parentElement.parentElement;
                 if (grandParentEl == taskContainer) {
-                    shouldIndent = true
                     // Indent
-                    debugger
+                    const prevSibEl = activeEl.previousElementSibling;
+                    // if prevSibling exists: appendChild to previousSibling
+                    if (prevSibEl) {
+                        // if prevSibEl has ul child append to that otherwise create a new one
+                        const ulExist = prevSibEl.firstElementChild;
+                        if (ulExist) {
+                            ulExist.appendChild(activeEl)
+                        } else {
+                            const ul = document.createElement("ul");
+                            ul.appendChild(activeEl)
+                            prevSibEl.appendChild(ul);
+                        }
+                    }
+                    // else: Do Nothing
+                    // active element has no previous sibling to indent (OR one list item is only available)
                 } else if (grandParentEl.tagName == "LI") {
-                    shouldIndent = false;
                     // Outdent
                     debugger
                 }
