@@ -47,7 +47,7 @@
 </body>
 <script>
     // TODO: (onFocus)Tab -> Indent Outdent
-    // TODO: (onFocus)Enter -> New Task
+    
     // TODO: dblClick -> Rename
 
     document.addEventListener("keydown", event => {
@@ -66,6 +66,10 @@
             if(event.metaKey)
                 if (event.keyCode == 8)
                     console.log("Remove a task")
+
+            // NOTE: (onFocus)Enter -> New Task
+            if (event.keyCode == 13)
+                console.log("New Task")
 
             
         }
