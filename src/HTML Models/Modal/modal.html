@@ -76,16 +76,6 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="task">
-            <header id="title">Stay Hydrated</header>
-            <ul>
-                <li>Closer</li>
-                <li>Damn</li>
-            </ul>
-            <div>+</div>
-        </div>
-    </div>
     <button id="modalToggle" z-index="99">Activate Modal</button>
     <div class="modal" id="myModal">
         <form action="" id="modalForm">
@@ -100,7 +90,6 @@
 <script>
     const modalButton = document.getElementById("modalToggle")
     modalButton.addEventListener("click", e => activateModal("myModal", e))
-    modalButton.click();
     document.addEventListener("click", e => deactivateModal("myModal", e))
 
     function activateModal(id, event) {
