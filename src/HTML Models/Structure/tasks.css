@@ -1,0 +1,7 @@
+li:focus {
+    background-color: yellow;
+}
+
+a:focus {
+    background-color: green;
+}
