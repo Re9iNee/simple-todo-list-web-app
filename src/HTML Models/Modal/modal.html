@@ -38,25 +38,18 @@
             position: absolute;
         }
 
-        * {
-            /* border: 1px solid coral; */
-        }
-
 
         .modal {
             width: 500px;
             height: 300px;
-            background-color: rgb(190, 190, 190);
             border-radius: 20px;
+            background-color: #FBFBFF;
+            border: 1px solid #ccc;
             position: absolute;
             transform: translateY(-100vh);
             transition: 0.5s all ease-in-out;
-
-
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
 
         div.form-btn-group {
@@ -70,6 +63,138 @@
 
         .modalActivated {
             filter: blur(5px) grayscale(30%);
+        }
+
+
+        /* Displays */
+        .modal .modalHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            flex-grow: 1;
+        }
+
+        .modal .modalBody {
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+        }
+
+        .modalBody>* {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal .inputHeader {
+            align-self: flex-start;
+            padding: 3px;
+        }
+
+        .modal .modalInput {
+            align-self: center;
+            flex-grow: 4;
+            min-width: 100%;
+            border-radius: 5px;
+            background-color: #EFEFEF;
+            border: none;
+            padding-left: 15px;
+        }
+
+        .modal hr {
+            width: 100%;
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        .modal .modalHeader,
+        .modal .form-btn-group {
+            flex-grow: 1;
+        }
+
+        .modal .modalBody {
+            flex-grow: 9;
+        }
+
+        .modal .modalBody>* {
+            flex-grow: 1;
+        }
+
+
+        .modal .form-btn-group {
+            display: flex;
+            justify-content: flex-end;
+            width: 50%;
+            align-self: flex-end;
+            padding: 12px;
+        }
+
+        .form-btn-group>* {
+            margin: 0 9px;
+        }
+
+        .form-btn-group .primary-btn {
+            flex-grow: 1;
+        }
+
+
+
+        /* Details */
+        #modalClose {
+            width: 16px;
+        }
+
+        /* typography */
+        @font-face {
+            font-family: "Open Sans Bold";
+            src: url("./Open_Sans/OpenSans-Bold.ttf");
+        }
+
+        @font-face {
+            font-family: "Open Sans Regular";
+            src: url("./Open_Sans/OpenSans-Regular.ttf");
+        }
+
+        .header {
+            font-family: "Open Sans Bold";
+        }
+
+        .body {
+            font-family: "Open Sans Regular";
+        }
+
+        .header-large {
+            font-size: 56px;
+        }
+
+        .header-medium {
+            font-size: 42px;
+        }
+
+        .header-small {
+            font-size: 30px;
+        }
+
+        .body-large {
+            font-size: 20px;
+        }
+
+        .body-medium {
+            font-size: 16px;
+        }
+
+        .body-small {
+            font-size: 14px;
+        }
+
+        /* Common */
+        .touchTarget {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
         }
     </style>
     <link rel="stylesheet" href="button.css">
@@ -88,15 +213,26 @@
         </div>
     </div>
     <button id="modalToggle" z-index="99">Activate Modal</button>
-    <div class="modal" id="myModal">
-        <form action="" id="modalForm">
-            <input type="text" name="" id="modalInput">
-            <div class="form-btn-group">
-                <button class="btn primary-btn">Save</button>
-                <button class="btn secondary-btn">Cancel</button>
+    <form class="modal" id="myModal">
+        <div class="modalHeader">
+            <header class="header header-small">Modal Title</header>
+            <div class="touchTarget">
+                <img src="../../../public/close@1.png" alt="close modal" srcset="" id="modalClose">
             </div>
-        </form>
-    </div>
+        </div>
+        <hr>
+        <div class="modalBody">
+            <div>
+                <header class="body body-small inputHeader">Input Title: </header>
+                <input type="text" class="body body-large modalInput" name="" id="modalInput" placeholder="Placeholder">
+            </div>
+        </div>
+        <hr>
+        <div class="form-btn-group">
+            <button class="btn primary-btn">Save</button>
+            <button class="btn secondary-btn">Cancel</button>
+        </div>
+    </form>
 </body>
 <script>
     const modalButton = document.getElementById("modalToggle")
@@ -117,7 +253,7 @@
     function deactivateModal(id, event) {
         const target = event.target
         const modal = document.getElementById(id);
-        if (target == document.body){
+        if (target == document.body) {
             modal.classList.remove("active");
             const container = document.getElementsByClassName("container")[0];
             container.classList.remove("modalActivated");
