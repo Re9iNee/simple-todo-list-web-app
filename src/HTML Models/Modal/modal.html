@@ -39,7 +39,7 @@
         }
 
         * {
-            border: 1px solid coral;
+            /* border: 1px solid coral; */
         }
 
 
@@ -50,7 +50,7 @@
             border-radius: 20px;
             position: absolute;
             transform: translateY(-100vh);
-            transition: .5s all ease-out;
+            transition: 0.5s all ease-in-out;
 
 
             display: flex;
@@ -72,17 +72,28 @@
             filter: blur(5px) grayscale(30%);
         }
     </style>
+    <link rel="stylesheet" href="button.css">
     <title>Document</title>
 </head>
 
 <body>
+    <div class="container">
+        <div class="task">
+            <header id="title">Stay Hydrated</header>
+            <ul>
+                <li>Closer</li>
+                <li>Damn</li>
+            </ul>
+            <div>+</div>
+        </div>
+    </div>
     <button id="modalToggle" z-index="99">Activate Modal</button>
     <div class="modal" id="myModal">
         <form action="" id="modalForm">
-            <input type="text" name="" id="">
+            <input type="text" name="" id="modalInput">
             <div class="form-btn-group">
-                <button class="btn-primary">Save</button>
-                <button class="btn-secondary">Cancel</button>
+                <button class="btn primary-btn">Save</button>
+                <button class="btn secondary-btn">Cancel</button>
             </div>
         </form>
     </div>
@@ -90,13 +101,14 @@
 <script>
     const modalButton = document.getElementById("modalToggle")
     modalButton.addEventListener("click", e => activateModal("myModal", e))
+    modalButton.click()
     document.addEventListener("click", e => deactivateModal("myModal", e))
 
     function activateModal(id, event) {
-        // NOTE: Activate modal
+        // Activate modal
         const modal = document.getElementById(id);
         modal.classList.add("active");
-        // NOTE: blur background
+        // blur background
         const container = document.getElementsByClassName("container")[0];
         container.classList.add("modalActivated")
         event.stopPropagation();
