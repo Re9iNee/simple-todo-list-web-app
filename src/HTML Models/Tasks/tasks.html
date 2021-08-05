@@ -87,7 +87,6 @@
             if (event.keyCode == 9) {
                 // on tab keyDown
                 const taskContainer = document.getElementById("taskContainer");
-                let shouldIndent;
                 const grandParentEl = activeEl.parentElement.parentElement;
                 if (grandParentEl == taskContainer) {
                     // Indent
@@ -108,7 +107,7 @@
                     // active element has no previous sibling to indent (OR one list item is only available)
                 } else if (grandParentEl.tagName == "LI") {
                     // Outdent
-                    debugger
+                    grandParentEl.insertAdjacentElement("afterend", activeEl)
                 }
             }
         }
