@@ -57,7 +57,6 @@
     </div>
 </body>
 <script>
-
     // TODO: dblClick -> Rename
 
     document.addEventListener("keydown", event => {
@@ -112,6 +111,39 @@
             }
 
 
+            if (event.keyCode == 38) {
+                // Arrow Key Up
+                try {
+                    const grandPaEl = activeEl.parentElement.parentElement;
+                    const taskContainer = document.getElementById("taskContainer");
+                    const prevSibEl = activeEl.previousElementSibling;
+
+
+                    // Documentation: Keyboard Navigation - Arrow Key Up .pdf
+                    // 2
+                    if (grandPaEl.tagName == "LI") {
+                        if (prevSibEl) {
+                            // 3
+                            prevSibEl.focus()
+                        } else {
+                            grandPaEl.focus()
+                        }
+                    }
+                    if (grandPaEl == taskContainer && prevSibEl) {
+                        try {
+                            // 4
+                            const prevSibLastChildEl = prevSibEl.firstElementChild.lastElementChild;
+                            prevSibLastChildEl.focus()
+                        } catch(err) {
+                            // 5
+                            prevSibEl.focus()
+                        }
+                    }
+                } catch (err) {
+                    // Do Nothing
+                }
+            }
+            
         }
     })
 </script>
