@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- solution 1 -->
+    <button>+ Add New Task</button>
+    <hr>
+    <!-- solution 2 -->
+    <style>
+        #addBtn {
+            min-width: 100px;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+        }
+        #addBtn::before {
+            content: " + ";
+            display: flex;
+            width: 40%;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+    </style>
+    <button id="addBtn">Add New Task</button>
+    <hr>
+    <!-- Primary, Secondary, tertiary -->
+    <style>
+        .btn {
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-family: "Avenir";
+            font-size: larger;
+        }
+        .primary-btn {
+            background-color: rgb(4, 8, 32);
+            color: rgb(247, 247, 248);
+        }
+        .secondary-btn {
+            background-color: rgb(227, 226, 230);
+            color: rgb(9, 11, 36);
+        }
+        .tertiary-btn {
+            background-color: rgb(250, 250, 250) ;
+            color: rgb(7, 10, 31);
+        }
+
+    </style>
+    <button type="submit" class="btn primary-btn" id="myBtn">Primary Button</button>
+    <button type="submit" class="btn secondary-btn" id="myBtn">Secondary Button</button>
+    <button type="submit" class="btn tertiary-btn" id="myBtn">Tertiary Button</button>
+</body>
+</html>
