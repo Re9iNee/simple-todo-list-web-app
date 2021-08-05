@@ -111,39 +111,30 @@
             }
 
 
+            // Documentation: Keyboard Navigation - Arrow Key Up.pdf
+            // Priority List: PrevSibLastChild - PrevSib - Parent(GParent)
             if (event.keyCode == 38) {
                 // Arrow Key Up
                 try {
-                    const grandPaEl = activeEl.parentElement.parentElement;
-                    const taskContainer = document.getElementById("taskContainer");
-                    const prevSibEl = activeEl.previousElementSibling;
-
-
-                    // Documentation: Keyboard Navigation - Arrow Key Up.pdf
-                    // 2
-                    if (grandPaEl.tagName == "LI") {
-                        if (prevSibEl) {
-                            // 3
-                            prevSibEl.focus()
-                        } else {
-                            grandPaEl.focus()
-                        }
-                    }
-                    if (grandPaEl == taskContainer && prevSibEl) {
+                    // 1st Priority - prevSibLastChild
+                    const prevSibLastChild = activeEl.previousElementSibling.firstElementChild.lastElementChild;
+                    prevSibLastChild.focus()
+                } catch {
+                    try {
+                        const prevSibEl = activeEl.previousElementSibling;
+                        prevSibEl.focus()
+                    } catch {
                         try {
-                            // 4
-                            const prevSibLastChildEl = prevSibEl.firstElementChild.lastElementChild;
-                            prevSibLastChildEl.focus()
-                        } catch(err) {
-                            // 5
-                            prevSibEl.focus()
+                            const grandPaEl = activeEl.parentElement.parentElement;
+                            grandPaEl.focus()
+                        } catch {
+                            // Do Nothing
                         }
                     }
-                } catch (err) {
-                    // Do Nothing
                 }
             }
             // Documentation: Keyboard Navigation - Arrow Key Down.pdf
+            // Priority List: Child - Next Sib - GParent Sib
             if (event.keyCode == 40) {
                 // Arrow Key Down
                 try {
