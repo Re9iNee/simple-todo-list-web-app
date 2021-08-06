@@ -3,7 +3,32 @@ import "./styles/Tasks.css";
 import "./styles/Buttons.css"
 
 class App extends React.Component {
-  handleKeyDown(event) {
+  constructor(props) {
+    super(props)
+    this.state = {
+      idCounter: 0,
+      tasks: [{
+        title: "Wash Clothes",
+        id: 1,
+        children: [{
+          title: "Sport Clothes",
+          id: 2,
+        }, {
+          title: "Casuals",
+          id: 3
+        }]
+      }, {
+        title: "Groceries",
+        id: 4,
+        children: []
+      }, {
+        title: "Fix Mac",
+        id: 5,
+        children: []
+      }]
+    };
+  }
+  handleKeyDown(event) { 
     // TODO: dblClick -> Rename
     const activeEl = document.querySelector("li:focus");
     // (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
@@ -39,6 +64,7 @@ class App extends React.Component {
         const grandParentEl = activeEl.parentElement.parentElement;
         if (grandParentEl === taskContainer) {
           // Indent
+          // TODO: don't Indent the Parent.
           const prevSibEl = activeEl.previousElementSibling;
           // if prevSibling exists: appendChild to previousSibling
           if (prevSibEl) {
@@ -132,13 +158,23 @@ class App extends React.Component {
       <div>
         <div className="container" id="taskContainer">
           <ul>
-            <li tabIndex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quaerat officiis consequuntur aliquam? Corrupti officiis nemo commodi quas, ut assumenda quaerat unde! Nemo cum quidem, reiciendis deleniti sed commodi vel?</li>
+            {/* <li tabIndex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quaerat officiis consequuntur aliquam? Corrupti officiis nemo commodi quas, ut assumenda quaerat unde! Nemo cum quidem, reiciendis deleniti sed commodi vel?</li>
             <li tabIndex="0">Odit ipsam repudiandae excepturi laudantium? A accusamus laborum autem doloremque, quos ea eius magnam exercitationem laudantium quidem error libero id quaerat incidunt. Quos est neque explicabo itaque veritatis dolorem culpa.
                 <ul>
                     <li tabIndex="0">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni, libero voluptates officiis odit officia provident quas in voluptas id facere minima asperiores fuga! Magnam consequatur porro ratione laudantium iusto amet.</li>
                 </ul>
             </li>
-            <li tabIndex="0">Modi cumque commodi voluptate sit fugiat dicta mollitia totam unde, qui sunt sequi corporis ipsam, dolore aliquid harum dignissimos quis. Doloribus recusandae architecto laborum maxime alias quod enim dignissimos sit?</li>
+            <li tabIndex="0">Modi cumque commodi voluptate sit fugiat dicta mollitia totam unde, qui sunt sequi corporis ipsam, dolore aliquid harum dignissimos quis. Doloribus recusandae architecto laborum maxime alias quod enim dignissimos sit?</li> */}
+            {this.state.tasks.map((task) => 
+              <li tabIndex="0" key={task.id}>
+                {task.title}
+                {task.children.length > 1 && 
+                  <ul>
+                    {task.children.map((child) => <li key={child.id} tabIndex="0">{child.title}</li>)}
+                  </ul>
+                  }
+                </li>
+              )}
           </ul>
         </div>
         <div className="btn-groups">
