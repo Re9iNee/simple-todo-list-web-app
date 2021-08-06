@@ -199,9 +199,15 @@ class App extends React.Component {
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" onClick={(ev) => this.activateModal("myModal", ev)}>Add New</button>
         </div>
-        <Modal title="Create Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" value="" primaryButtonTitle="Create" />
+        <Modal title="Create Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" primaryButtonTitle="Create" transmitData = {this.gotData}/>
       </div>
     )
+  }
+  gotData = (childData) => {
+    debugger
+  }
+  componentDidMount() {
+    document.getElementById("addBtn").click()
   }
 }
 
