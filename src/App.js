@@ -1,8 +1,6 @@
 import React from "react";
 import "./styles/Tasks.css";
 import "./styles/Buttons.css";
-import './styles/Modal.css';
-import closeImg from "./close@1.png"
 import Modal from "./Modal"
 
 class App extends React.Component {
