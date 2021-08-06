@@ -1,7 +1,7 @@
 import React from "react";
-import "./styles/Tasks.css";
 import "./styles/Buttons.css";
 import Modal from "./Modal"
+import Tasks from "./Tasks"
 
 class App extends React.Component {
   constructor(props) {
@@ -9,25 +9,6 @@ class App extends React.Component {
     this.state = {
       idCounter: 0,
       showModal: false,
-      tasks: [{
-        title: "Wash Clothes",
-        id: 1,
-        children: [{
-          title: "Sport Clothes",
-          id: 2,
-        }, {
-          title: "Casuals",
-          id: 3
-        }]
-      }, {
-        title: "Groceries",
-        id: 4,
-        children: []
-      }, {
-        title: "Fix Mac",
-        id: 5,
-        children: []
-      }]
     };
   }
   handleKeyDown(event) { 
@@ -181,18 +162,7 @@ class App extends React.Component {
     return (
       <div>
         <div className="container" id="taskContainer" onClick={(ev) => this.deactivateModal("myModal", ev)}>
-          <ul>
-            {this.state.tasks.map((task) => 
-              <li tabIndex="0" key={task.id}>
-                {task.title}
-                {task.children.length > 1 && 
-                  <ul>
-                    {task.children.map((child) => <li key={child.id} tabIndex="0">{child.title}</li>)}
-                  </ul>
-                  }
-                </li>
-              )}
-          </ul>
+          <Tasks/>
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" onClick={(ev) => this.activateModal("myModal", ev)}>Add New</button>
@@ -203,9 +173,6 @@ class App extends React.Component {
   }
   gotData = (childData) => {
     debugger
-  }
-  componentDidMount() {
-    document.getElementById("addBtn").click()
   }
 }
 
