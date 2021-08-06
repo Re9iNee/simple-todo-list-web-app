@@ -15,6 +15,27 @@ class Modal extends React.Component {
     handleChange = (event) => {
         this.setState({ value: event.target.value });
     }
+
+    componentWillUnmount() {
+        // FIXME: it wont deactivate if you press on #addBtn
+        const modal = document.getElementById('myModal');
+        modal.classList.remove("active");
+        const container = document.getElementsByClassName("container")[0];
+        container.classList.remove("modalActivated");
+        const buttonGroups = document.getElementsByClassName("btn-groups")[0];
+        buttonGroups.classList.remove("modalActivated");
+    }
+
+    componentDidMount() {
+        // Activate modal
+        const modal = document.getElementById("myModal");
+        modal.classList.add("active");
+        // blur background
+        const container = document.getElementsByClassName("container")[0];
+        container.classList.add("modalActivated");
+        const buttonGroups = document.getElementsByClassName("btn-groups")[0];
+        buttonGroups.classList.add("modalActivated");
+    }
     render() {
         return (
             <form className="modal" id="myModal" onSubmit={this.transferData}>
@@ -28,7 +49,7 @@ class Modal extends React.Component {
                 <div className="modalBody">
                     <div>
                         <header className="body body-small inputHeader">{this.props.inputTitle}</header>
-                        <input type="text" className="body body-large modalInput" name="" id="modalInput" placeholder={this.props.inputPlaceHolder} value={this.state.value} onChange= {this.handleChange}/>
+                        <input type="text" className="body body-large modalInput" name="value" id="modalInput" placeholder={this.props.inputPlaceHolder} defaultValue={this.state.value} onChange= {this.handleChange}/>
                     </div>
                 </div>
                 <hr/>

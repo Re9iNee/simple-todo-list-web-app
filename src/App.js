@@ -9,6 +9,8 @@ class App extends React.Component {
     this.state = {
       idCounter: 0,
       showModal: false,
+      createMode: false,
+      updateMode: true,
     };
   }
   handleKeyDown(event) { 
@@ -135,26 +137,18 @@ class App extends React.Component {
     
   } 
 
-
-  activateModal(id, event) {
-    // Activate modal
-    const modal = document.getElementById(id);
-    modal.classList.add("active");
-    // blur background
-    const container = document.getElementsByClassName("container")[0];
-    container.classList.add("modalActivated");
-    const buttonGroups = document.getElementsByClassName("btn-groups")[0];
-    buttonGroups.classList.add("modalActivated");
+  create = (event) => {
     event.stopPropagation();
+    this.setState({
+      showModal: true,
+      createMode: true,
+      updateMode: false
+    })
   }
-  
   deactivateModal(id, event) {
-    const modal = document.getElementById(id);
-    modal.classList.remove("active");
-    const container = document.getElementsByClassName("container")[0];
-    container.classList.remove("modalActivated");
-    const buttonGroups = document.getElementsByClassName("btn-groups")[0];
-    buttonGroups.classList.remove("modalActivated");
+    this.setState({
+      showModal: false,
+    })
   }
 
   render() {
@@ -165,14 +159,35 @@ class App extends React.Component {
           <Tasks/>
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
-            <button className="btn primary-btn" id="addBtn" onClick={(ev) => this.activateModal("myModal", ev)}>Add New</button>
+            <button className="btn primary-btn" id="addBtn" 
+            onClick={this.create}
+              >Add New</button>
         </div>
-        <Modal title="Create Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" primaryButtonTitle="Create" transmitData = {this.gotData}/>
+        { this.state.showModal && this.state.createMode &&
+        <Modal title="Create Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" primaryButtonTitle="Create" transmitData = {this.gotData}/> }
+        { this.state.showModal && this.state.updateMode &&
+        <Modal title="Rename Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" primaryButtonTitle="Rename" transmitData = {this.gotData}/> }
+        { this.state.showModal &&
+          <Modal 
+            title={this.state.createMode ? 'Create Task' : 'Rename Task'} 
+            inputTitle="task name" 
+            inputPlaceHolder="e.g: Wash Clothes" 
+            primaryButtonTitle={ this.state.createMode ? 'Create' : 'Rename' } 
+            transmitData = {this.gotData} 
+            value="" 
+            // TODO: dont forget to add value in updateMode
+          />
+          }
       </div>
     )
   }
   gotData = (childData) => {
     debugger
+    this.setState({
+      showModal: false,
+      createMode: false,
+      updateMode: true,
+    })
   }
 }
 
