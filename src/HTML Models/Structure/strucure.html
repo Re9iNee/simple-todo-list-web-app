@@ -24,6 +24,13 @@
             justify-content: flex-start;
             align-items: flex-start;
         }
+        #root {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-grow: 1;
+        }
         
         .container {
             flex-grow: 1;
@@ -40,21 +47,23 @@
 </head>
 
 <body>
-    <div class="container" id="taskContainer">
-        <ul>
-            <li tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quaerat officiis consequuntur aliquam? Corrupti officiis nemo commodi quas, ut assumenda quaerat unde! Nemo cum quidem, reiciendis deleniti sed commodi vel?</li>
-            <li tabindex="0">Odit ipsam repudiandae excepturi laudantium? A accusamus laborum autem doloremque, quos ea eius magnam exercitationem laudantium quidem error libero id quaerat incidunt. Quos est neque explicabo itaque veritatis dolorem culpa.
-                <ul>
-                    <li tabindex="0">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni, libero voluptates officiis odit officia provident quas in voluptas id facere minima asperiores fuga! Magnam consequatur porro ratione laudantium iusto amet.</li>
-                </ul>
-            </li>
-            <li tabindex="0">Modi cumque commodi voluptate sit fugiat dicta mollitia totam unde, qui sunt sequi corporis ipsam, dolore aliquid harum dignissimos quis. Doloribus recusandae architecto laborum maxime alias quod enim dignissimos sit?</li>
-        </ul>
-    </div>
-    <div class="btn-groups">
-        <button class="btn primary-btn" id="addBtn">Add New</button>
+    <div id="root">
+        <div class="container" id="taskContainer">
+            <ul>
+                <li tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quaerat officiis consequuntur aliquam? Corrupti officiis nemo commodi quas, ut assumenda quaerat unde! Nemo cum quidem, reiciendis deleniti sed commodi vel?</li>
+                <li tabindex="0">Odit ipsam repudiandae excepturi laudantium? A accusamus laborum autem doloremque, quos ea eius magnam exercitationem laudantium quidem error libero id quaerat incidunt. Quos est neque explicabo itaque veritatis dolorem culpa.
+                    <ul>
+                        <li tabindex="0">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni, libero voluptates officiis odit officia provident quas in voluptas id facere minima asperiores fuga! Magnam consequatur porro ratione laudantium iusto amet.</li>
+                    </ul>
+                </li>
+                <li tabindex="0">Modi cumque commodi voluptate sit fugiat dicta mollitia totam unde, qui sunt sequi corporis ipsam, dolore aliquid harum dignissimos quis. Doloribus recusandae architecto laborum maxime alias quod enim dignissimos sit?</li>
+            </ul>
+        </div>
+        <div class="btn-groups">
+            <button class="btn primary-btn" id="addBtn">Add New</button>
+        </div>
+        <div class="modal"></div>
     </div>
 </body>
-<div class="modal"></div>
 
 </html>
