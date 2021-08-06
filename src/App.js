@@ -32,6 +32,7 @@ class App extends React.Component {
     };
   }
   handleKeyDown(event) { 
+    // TODO: bring back preventDefaults()
     // TODO: dblClick -> Rename
     const activeEl = document.querySelector("li:focus");
     // (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
