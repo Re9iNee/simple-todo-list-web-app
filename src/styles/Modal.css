@@ -1,0 +1,158 @@
+.modal {
+    width: 500px;
+    height: 300px;
+    border-radius: 20px;
+    background-color: #FBFBFF;
+    border: 1px solid #ccc;
+    position: absolute;
+    transform: translateY(-100vh);
+    align-self: center;
+    transition: 0.5s all ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+div.form-btn-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal.active {
+    transform: translateY(0);
+}
+
+.modalActivated {
+    filter: blur(5px) grayscale(30%);
+}
+
+
+/* Displays */
+.modal .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    flex-grow: 1;
+}
+
+.modal .modalBody {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+}
+
+.modalBody>* {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal .inputHeader {
+    align-self: flex-start;
+    padding: 3px;
+}
+
+.modal .modalInput {
+    align-self: center;
+    flex-grow: 4;
+    min-width: 100%;
+    border-radius: 5px;
+    background-color: #EFEFEF;
+    border: none;
+    padding-left: 15px;
+}
+
+.modal hr {
+    width: 100%;
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.modal .modalHeader,
+.modal .form-btn-group {
+    flex-grow: 1;
+}
+
+.modal .modalBody {
+    flex-grow: 9;
+}
+
+.modal .modalBody>* {
+    flex-grow: 1;
+}
+
+
+.modal .form-btn-group {
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+    align-self: flex-end;
+    padding: 12px;
+}
+
+.form-btn-group>* {
+    margin: 0 9px;
+}
+
+.form-btn-group .primary-btn {
+    flex-grow: 1;
+}
+
+
+
+/* Details */
+#modalClose {
+    width: 16px;
+}
+
+/* typography */
+/* @font-face {
+    font-family: "Open Sans Bold";
+    src: url("./Open_Sans/OpenSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url("./Open_Sans/OpenSans-Regular.ttf");
+}
+
+.header {
+    font-family: "Open Sans Bold";
+}
+
+.body {
+    font-family: "Open Sans Regular";
+} */
+
+.header-large {
+    font-size: 56px;
+}
+
+.header-medium {
+    font-size: 42px;
+}
+
+.header-small {
+    font-size: 30px;
+}
+
+.body-large {
+    font-size: 20px;
+}
+
+.body-medium {
+    font-size: 16px;
+}
+
+.body-small {
+    font-size: 14px;
+}
+
+/* Common */
+.touchTarget {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+}

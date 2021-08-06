@@ -1,12 +1,15 @@
 import React from "react";
 import "./styles/Tasks.css";
-import "./styles/Buttons.css"
+import "./styles/Buttons.css";
+import './styles/Modal.css';
+import closeImg from "./close@1.png"
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       idCounter: 0,
+      showModal: false,
       tasks: [{
         title: "Wash Clothes",
         id: 1,
@@ -39,26 +42,26 @@ class App extends React.Component {
         if (event.shiftKey)
           if (event.keyCode === 8) {
             console.log("Remove a task")
-            event.preventDefault();
+            // event.preventDefault();
           }
 
       // Mac
       if (event.metaKey)
         if (event.keyCode === 8) {
           console.log("Remove a task")
-          event.preventDefault();
+          // event.preventDefault();
         }
 
       // (onFocus)Enter -> New Task
       // TODO: dblCheck enter KeyCode in windows
       if (event.keyCode === 13) {
         console.log("New Task")
-        event.preventDefault();
+        // event.preventDefault();
       }
 
       // (onFocus)Tab -> Indent Outdent
       if (event.keyCode === 9) {
-        event.preventDefault();
+        // event.preventDefault();
         // on tab keyDown
         const taskContainer = document.getElementById("taskContainer");
         const grandParentEl = activeEl.parentElement.parentElement;
@@ -91,7 +94,7 @@ class App extends React.Component {
       // Documentation: Keyboard Navigation - Arrow Key Up.pdf
       // Priority List: PrevSibLastChild - PrevSib - Parent(GParent)
       if (event.keyCode === 38) {
-        event.preventDefault();
+        // event.preventDefault();
         // Arrow Key Up
         try {
           // 1st Priority - prevSibLastChild
@@ -114,7 +117,7 @@ class App extends React.Component {
       // Documentation: Keyboard Navigation - Arrow Key Down.pdf
       // Priority List: Child - Next Sib - GParent Sib
       if (event.keyCode === 40) {
-        event.preventDefault();
+        // event.preventDefault();
         // Arrow Key Down
         try {
           // 1st Priority - Child
@@ -139,7 +142,7 @@ class App extends React.Component {
     }
     // Keyboard Navigation if we don't have any focused element
     else {
-      event.preventDefault();
+      // event.preventDefault();
       const taskContainer = document.getElementById("taskContainer");
       if (event.keyCode === 38) {
         // Arrow Key Up
@@ -152,19 +155,33 @@ class App extends React.Component {
   } 
 
 
+  activateModal(id, event) {
+    // Activate modal
+    const modal = document.getElementById(id);
+    modal.classList.add("active");
+    // blur background
+    const container = document.getElementsByClassName("container")[0];
+    container.classList.add("modalActivated");
+    const buttonGroups = document.getElementsByClassName("btn-groups")[0];
+    buttonGroups.classList.add("modalActivated");
+    event.stopPropagation();
+  }
+  
+  deactivateModal(id, event) {
+    const modal = document.getElementById(id);
+    modal.classList.remove("active");
+    const container = document.getElementsByClassName("container")[0];
+    container.classList.remove("modalActivated");
+    const buttonGroups = document.getElementsByClassName("btn-groups")[0];
+    buttonGroups.classList.remove("modalActivated");
+  }
+
   render() {
     window.addEventListener("keydown", this.handleKeyDown);
     return (
       <div>
-        <div className="container" id="taskContainer">
+        <div className="container" id="taskContainer" onClick={(ev) => this.deactivateModal("myModal", ev)}>
           <ul>
-            {/* <li tabIndex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quaerat officiis consequuntur aliquam? Corrupti officiis nemo commodi quas, ut assumenda quaerat unde! Nemo cum quidem, reiciendis deleniti sed commodi vel?</li>
-            <li tabIndex="0">Odit ipsam repudiandae excepturi laudantium? A accusamus laborum autem doloremque, quos ea eius magnam exercitationem laudantium quidem error libero id quaerat incidunt. Quos est neque explicabo itaque veritatis dolorem culpa.
-                <ul>
-                    <li tabIndex="0">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni, libero voluptates officiis odit officia provident quas in voluptas id facere minima asperiores fuga! Magnam consequatur porro ratione laudantium iusto amet.</li>
-                </ul>
-            </li>
-            <li tabIndex="0">Modi cumque commodi voluptate sit fugiat dicta mollitia totam unde, qui sunt sequi corporis ipsam, dolore aliquid harum dignissimos quis. Doloribus recusandae architecto laborum maxime alias quod enim dignissimos sit?</li> */}
             {this.state.tasks.map((task) => 
               <li tabIndex="0" key={task.id}>
                 {task.title}
@@ -177,9 +194,29 @@ class App extends React.Component {
               )}
           </ul>
         </div>
-        <div className="btn-groups">
-            <button className="btn primary-btn" id="addBtn">Add New</button>
+        <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
+            <button className="btn primary-btn" id="addBtn" onClick={(ev) => this.activateModal("myModal", ev)}>Add New</button>
         </div>
+        <form className="modal" id="myModal">
+          <div className="modalHeader">
+              <header className="header header-small">Modal Title</header>
+              <div className="touchTarget">
+                  <img src={closeImg} alt="close modal" srcSet="" id="modalClose" />
+              </div>
+          </div>
+          <hr/>
+          <div className="modalBody">
+              <div>
+                  <header className="body body-small inputHeader">Input Title: </header>
+                  <input type="text" className="body body-large modalInput" name="" id="modalInput" placeholder="Placeholder" />
+              </div>
+          </div>
+          <hr/>
+          <div className="form-btn-group">
+              <button className="btn primary-btn">Save</button>
+              <button className="btn secondary-btn">Cancel</button>
+          </div>
+        </form>
       </div>
     )
   }
