@@ -3,6 +3,7 @@ import "./styles/Tasks.css";
 import "./styles/Buttons.css";
 import './styles/Modal.css';
 import closeImg from "./close@1.png"
+import Modal from "./Modal"
 
 class App extends React.Component {
   constructor(props) {
@@ -198,26 +199,7 @@ class App extends React.Component {
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" onClick={(ev) => this.activateModal("myModal", ev)}>Add New</button>
         </div>
-        <form className="modal" id="myModal">
-          <div className="modalHeader">
-              <header className="header header-small">Modal Title</header>
-              <div className="touchTarget">
-                  <img src={closeImg} alt="close modal" srcSet="" id="modalClose" />
-              </div>
-          </div>
-          <hr/>
-          <div className="modalBody">
-              <div>
-                  <header className="body body-small inputHeader">Input Title: </header>
-                  <input type="text" className="body body-large modalInput" name="" id="modalInput" placeholder="Placeholder" />
-              </div>
-          </div>
-          <hr/>
-          <div className="form-btn-group">
-              <button className="btn primary-btn">Save</button>
-              <button className="btn secondary-btn">Cancel</button>
-          </div>
-        </form>
+        <Modal title="Create Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" value="" primaryButtonTitle="Create" />
       </div>
     )
   }
