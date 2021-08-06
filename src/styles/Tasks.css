@@ -1,0 +1,12 @@
+#taskContainer {
+    flex-grow: 1;
+}
+li:focus {
+    background-color: yellow;
+    border-radius: 5px;
+    padding: 12px;
+}
+
+a:focus {
+    background-color: green;
+}
