@@ -1,7 +1,8 @@
 import React from "react";
 import "./styles/Buttons.css";
 import Modal from "./Modal"
-import Tasks from "./Tasks"
+import Tasks from "./Tasks";
+import database from "./database";
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +12,9 @@ class App extends React.Component {
       showModal: false,
       createMode: false,
       updateMode: true,
+      tasks: [],
+      // localStorage obj
+      storage: new database(props.url),
     };
     // deactive modal from Child Components
     this.deactivateModal = this.deactivateModal.bind(this);
@@ -153,12 +157,18 @@ class App extends React.Component {
     })
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return {
+      tasks: state.storage.get()
+    }
+  }
+
   render() {
     window.addEventListener("keydown", this.handleKeyDown);
     return (
       <div>
         <div className="container" id="taskContainer" onClick={(ev) => this.deactivateModal("myModal", ev)}>
-          <Tasks/>
+          <Tasks tasks={ this.state.tasks } />
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" 
