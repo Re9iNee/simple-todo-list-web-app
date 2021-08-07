@@ -7,6 +7,7 @@ class Tasks extends React.Component {
         // (onFocus)Enter -> New Task
         // TODO: dblCheck enter KeyCode in windows
         if (event.keyCode === 13) {
+            event.preventDefault();
             // open modal in createMode
             this.props.onCreate(event, id);
         }
