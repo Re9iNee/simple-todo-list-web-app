@@ -45,39 +45,39 @@ class App extends React.Component {
 
 
       // (onFocus)Shift -> Indent Outdent
-      if (event.shiftKey) {
-        // on shiftKey keyDown
-        const taskContainer = document.getElementById("taskContainer");
-        const grandParentEl = activeEl.parentElement.parentElement;
-        if (grandParentEl === taskContainer && !activeEl.children.length) {
-          // 2n condition: indent if its not a parent
-          // Indent
-          const prevSibEl = activeEl.previousElementSibling;
-          // if prevSibling exists: appendChild to previousSibling
-          if (prevSibEl) {
-              // if prevSibEl has ul child append to that otherwise create a new one
-              const ulExist = prevSibEl.firstElementChild;
-              if (ulExist) {
-                  ulExist.appendChild(activeEl)
-              } else {
-                  const ul = document.createElement("ul");
-                  ul.appendChild(activeEl)
-                  prevSibEl.appendChild(ul);
-              }
-            }
-          // else: Do Nothing
-          // active element has no previous sibling to indent (OR one list item is only available)
-        } else if (grandParentEl.tagName === "LI") {
-          // Outdent
-          if (activeEl.parentElement.children.length === 1) {
-              grandParentEl.insertAdjacentElement("afterend", activeEl)
-              grandParentEl.removeChild(grandParentEl.firstElementChild)
-              // When indent, we check for the element to see if its a parent or not. when outdenting the last child of an element, we remove "UL" childNode from it to fully become non-parent
-          }
-          grandParentEl.insertAdjacentElement("afterend", activeEl)
-        }
-        activeEl.focus()
-      }
+      // if (event.shiftKey) {
+      //   // on shiftKey keyDown
+      //   const taskContainer = document.getElementById("taskContainer");
+      //   const grandParentEl = activeEl.parentElement.parentElement;
+      //   if (grandParentEl === taskContainer && !activeEl.children.length) {
+      //     // 2n condition: indent if its not a parent
+      //     // Indent
+      //     const prevSibEl = activeEl.previousElementSibling;
+      //     // if prevSibling exists: appendChild to previousSibling
+      //     if (prevSibEl) {
+      //         // if prevSibEl has ul child append to that otherwise create a new one
+      //         const ulExist = prevSibEl.firstElementChild;
+      //         if (ulExist) {
+      //             ulExist.appendChild(activeEl)
+      //         } else {
+      //             const ul = document.createElement("ul");
+      //             ul.appendChild(activeEl)
+      //             prevSibEl.appendChild(ul);
+      //         }
+      //       }
+      //     // else: Do Nothing
+      //     // active element has no previous sibling to indent (OR one list item is only available)
+      //   } else if (grandParentEl.tagName === "LI") {
+      //     // Outdent
+      //     if (activeEl.parentElement.children.length === 1) {
+      //         grandParentEl.insertAdjacentElement("afterend", activeEl)
+      //         grandParentEl.removeChild(grandParentEl.firstElementChild)
+      //         // When indent, we check for the element to see if its a parent or not. when outdenting the last child of an element, we remove "UL" childNode from it to fully become non-parent
+      //     }
+      //     grandParentEl.insertAdjacentElement("afterend", activeEl)
+      //   }
+      //   activeEl.focus()
+      // }
 
 
       // Documentation: Keyboard Navigation - Arrow Key Up.pdf
@@ -160,6 +160,9 @@ class App extends React.Component {
     })
 
   }
+
+
+
   deactivateModal (event) {
     this.setState({
       showModal: false,
@@ -210,7 +213,8 @@ class App extends React.Component {
           <Tasks 
           tasks={ this.state.tasks } 
           onCreate= { this.create } 
-          onUpdate= {this.update }/>
+          onUpdate= {this.update }
+          onIndent= { this.indent }/>
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" 
@@ -231,6 +235,12 @@ class App extends React.Component {
           }
       </div>
     )
+  }
+  indent = (data) => {
+    this.state.storage.set(data);
+    this.setState({
+      tasks: data
+    })
   }
   gotData = (childData) => {
     switch (this.state.mode) { 
