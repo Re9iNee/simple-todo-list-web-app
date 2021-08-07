@@ -214,7 +214,8 @@ class App extends React.Component {
           tasks={ this.state.tasks } 
           onCreate= { this.create } 
           onUpdate= {this.update }
-          onIndent= { this.indent }/>
+          onIndent= { this.indent }
+          onOutdent= { this.indent } />
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" 

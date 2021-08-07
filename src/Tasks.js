@@ -30,6 +30,20 @@ class Tasks extends React.Component {
         event.stopPropagation();
         this.props.onUpdate(event, id, title)
     }
+
+    handleOutdent = (event, child, childIndex, Pindex) => {
+        if (event.shiftKey) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            // removing from children array
+            this.props.tasks[Pindex].children.splice(childIndex, 1);
+            // adding to tasks
+            Object.assign(child, {children: []});
+            this.props.tasks.splice(Pindex + 1, 0, child);
+            this.props.onOutdent(this.props.tasks)
+        }
+    }
     render() {
         return (
             <ul>
@@ -42,10 +56,11 @@ class Tasks extends React.Component {
                         {task.title}
                         {task.children.length > 0 && 
                         <ul>
-                            {task.children.map((child) => 
+                            {task.children.map((child, childIndex) => 
                             <li 
                             key={child.id} 
                             onDoubleClick= { (ev) => this.handleDblClick(ev, child.id, child.title) }
+                            onKeyDown= { (ev) => this.handleOutdent(ev, child, childIndex, index) }
                             tabIndex="0">{child.title}</li>)}
                         </ul>
                         }
