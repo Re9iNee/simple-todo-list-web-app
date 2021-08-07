@@ -41,7 +41,7 @@ class Modal extends React.Component {
             <form className="modal" id="myModal" onSubmit={this.transferData}>
                 <div className="modalHeader">
                     <header className="header header-small">{this.props.title}</header>
-                    <div className="touchTarget">
+                    <div className="touchTarget" onClick= { this.props.deactivateModal }>
                         <img src={closeImg} alt="close modal" srcSet="" id="modalClose" />
                     </div>
                 </div>
@@ -54,8 +54,18 @@ class Modal extends React.Component {
                 </div>
                 <hr/>
                 <div className="form-btn-group">
-                    <button className="btn primary-btn" type="submit">{this.props.primaryButtonTitle || 'Save' }</button>
-                    <button className="btn secondary-btn">{this.props.secondaryButtonTitle || 'Cancel'}</button>
+                    <button 
+                    className="btn primary-btn" 
+                    type="submit">
+                        { this.props.primaryButtonTitle || 'Save' }
+                    </button>
+
+                    <button 
+                    className="btn secondary-btn" 
+                    onClick= { this.props.deactivateModal }  
+                    type="button">
+                            { this.props.secondaryButtonTitle || 'Cancel' }
+                    </button>
                 </div>
             </form>
         );

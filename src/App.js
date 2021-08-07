@@ -12,6 +12,8 @@ class App extends React.Component {
       createMode: false,
       updateMode: true,
     };
+    // deactive modal from Child Components
+    this.deactivateModal = this.deactivateModal.bind(this);
   }
   handleKeyDown(event) { 
     // TODO: bring back preventDefaults()
@@ -145,7 +147,7 @@ class App extends React.Component {
       updateMode: false
     })
   }
-  deactivateModal(id, event) {
+  deactivateModal (event) {
     this.setState({
       showModal: false,
     })
@@ -163,19 +165,16 @@ class App extends React.Component {
             onClick={this.create}
               >Add New</button>
         </div>
-        { this.state.showModal && this.state.createMode &&
-        <Modal title="Create Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" primaryButtonTitle="Create" transmitData = {this.gotData}/> }
-        { this.state.showModal && this.state.updateMode &&
-        <Modal title="Rename Task" inputTitle="task name" inputPlaceHolder="e.g: Wash Clothes" primaryButtonTitle="Rename" transmitData = {this.gotData}/> }
         { this.state.showModal &&
           <Modal 
-            title={this.state.createMode ? 'Create Task' : 'Rename Task'} 
-            inputTitle="task name" 
-            inputPlaceHolder="e.g: Wash Clothes" 
-            primaryButtonTitle={ this.state.createMode ? 'Create' : 'Rename' } 
-            transmitData = {this.gotData} 
-            value="" 
-            // TODO: dont forget to add value in updateMode
+            title= { this.state.createMode ? 'Create Task' : 'Rename Task' } 
+            inputTitle= "task name" 
+            inputPlaceHolder= "e.g: Wash Clothes" 
+            primaryButtonTitle= { this.state.createMode ? 'Create' : 'Rename' } 
+            transmitData = { this.gotData } 
+            // TODO: add value in updateMode
+            value= { this.state.createMode ? '' : '' }
+            deactivateModal= { this.deactivateModal }
           />
           }
       </div>
