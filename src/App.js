@@ -159,15 +159,45 @@ class App extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
-      tasks: state.storage.get()
+      tasks: state.storage.get(),
+      idCounter: state.storage.getLastId(),
     }
+  }
+  componentDidMount() {
+    // ----- Debug Only -------
+    // 1
+    // this.state.storage.remove()
+    // 2
+    // this.state.storage.set([{
+    //   title: "Wash Clothes",
+    //   id: 1,
+    //   children: [{
+    //     title: "Sport Clothes",
+    //     id: 2,
+    //   }, {
+    //     title: "Casuals",
+    //     id: 3
+    //   }]
+    // }, {
+    //   title: "Groceries",
+    //   id: 4,
+    //   children: []
+    // }, {
+    //   title: "Fix Mac",
+    //   id: 5,
+    //   children: []
+    // }])
+    // ----- DEBUG ONLY END------
   }
 
   render() {
     window.addEventListener("keydown", this.handleKeyDown);
     return (
       <div>
-        <div className="container" id="taskContainer" onClick={(ev) => this.deactivateModal("myModal", ev)}>
+        <pre>{this.state.idCounter}</pre>
+        <div className="container" id="taskContainer" 
+        // TODO: the state will update even by a single click (even if modal is not activated )
+        onClick={(ev) => this.deactivateModal("myModal", ev)}>
           <Tasks tasks={ this.state.tasks } />
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
@@ -191,7 +221,7 @@ class App extends React.Component {
     )
   }
   gotData = (childData) => {
-    debugger
+    
     this.setState({
       showModal: false,
       createMode: false,
