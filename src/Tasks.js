@@ -19,6 +19,9 @@ class Tasks extends React.Component {
             // 2. n? (Indent to its parent)
             if (!task.children.length && index !== 0) {
                 // INDENT
+                // removing children Array from it
+                delete task.children;
+                // adding to parent
                 this.props.tasks[index - 1].children.push(task);
                 this.props.tasks.splice(index, 1);
                 // UPDATE App Component

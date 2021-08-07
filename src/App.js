@@ -271,8 +271,15 @@ class App extends React.Component {
         // Renaming a task
         let data = [...this.state.tasks];
         for (const v of data) {
+          for (const cV of v.children) {
+            if (cV.id === this.state.tempId){
+              cV.title = childData;
+              break;
+            }
+          }
           if (v.id === this.state.tempId) {
             v.title = childData
+            break;
           }
         }
         this.state.storage.set(data)
