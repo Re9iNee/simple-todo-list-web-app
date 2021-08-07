@@ -23,63 +23,10 @@ class App extends React.Component {
   handleKeyDown(event) { 
     // TODO: on(Escape) key close modal
     // TODO: bring back preventDefaults()
-    // TODO: dblClick -> Rename
     const activeEl = document.querySelector("li:focus");
     // (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
     // TODO: dblCheck delete keyCode in Windows
     if (activeEl) {
-      // Windows
-      if (event.ctrlKey)
-        if (event.shiftKey)
-          if (event.keyCode === 8) {
-            console.log("Remove a task")
-            // event.preventDefault();
-          }
-
-      // Mac
-      if (event.metaKey)
-        if (event.keyCode === 8) {
-          console.log("Remove a task")
-          // event.preventDefault();
-        }
-
-
-      // (onFocus)Shift -> Indent Outdent
-      // if (event.shiftKey) {
-      //   // on shiftKey keyDown
-      //   const taskContainer = document.getElementById("taskContainer");
-      //   const grandParentEl = activeEl.parentElement.parentElement;
-      //   if (grandParentEl === taskContainer && !activeEl.children.length) {
-      //     // 2n condition: indent if its not a parent
-      //     // Indent
-      //     const prevSibEl = activeEl.previousElementSibling;
-      //     // if prevSibling exists: appendChild to previousSibling
-      //     if (prevSibEl) {
-      //         // if prevSibEl has ul child append to that otherwise create a new one
-      //         const ulExist = prevSibEl.firstElementChild;
-      //         if (ulExist) {
-      //             ulExist.appendChild(activeEl)
-      //         } else {
-      //             const ul = document.createElement("ul");
-      //             ul.appendChild(activeEl)
-      //             prevSibEl.appendChild(ul);
-      //         }
-      //       }
-      //     // else: Do Nothing
-      //     // active element has no previous sibling to indent (OR one list item is only available)
-      //   } else if (grandParentEl.tagName === "LI") {
-      //     // Outdent
-      //     if (activeEl.parentElement.children.length === 1) {
-      //         grandParentEl.insertAdjacentElement("afterend", activeEl)
-      //         grandParentEl.removeChild(grandParentEl.firstElementChild)
-      //         // When indent, we check for the element to see if its a parent or not. when outdenting the last child of an element, we remove "UL" childNode from it to fully become non-parent
-      //     }
-      //     grandParentEl.insertAdjacentElement("afterend", activeEl)
-      //   }
-      //   activeEl.focus()
-      // }
-
-
       // Documentation: Keyboard Navigation - Arrow Key Up.pdf
       // Priority List: PrevSibLastChild - PrevSib - Parent(GParent)
       if (event.keyCode === 38) {
@@ -158,7 +105,12 @@ class App extends React.Component {
       tempId: id,
       tempTitle: title,
     })
-
+  }
+  delete = (event, id) => {
+    this.state.storage.delete(id);
+    this.setState({
+      refresh: true
+    })
   }
 
 
@@ -178,30 +130,6 @@ class App extends React.Component {
       idCounter: state.storage.getLastId() + 1,
     }
   }
-  componentDidMount() {
-    // ----- Debug Only -------
-    // 2
-    // this.state.storage.set([{
-    //   title: "Wash Clothes",
-    //   id: 1,
-    //   children: [{
-    //     title: "Sport Clothes",
-    //     id: 2,
-    //   }, {
-    //     title: "Casuals",
-    //     id: 3
-    //   }]
-    // }, {
-    //   title: "Groceries",
-    //   id: 4,
-    //   children: []
-    // }, {
-    //   title: "Fix Mac",
-    //   id: 5,
-    //   children: []
-    // }])
-    // ----- DEBUG ONLY END------
-  }
 
   render() {
     window.addEventListener("keydown", this.handleKeyDown);
@@ -214,8 +142,10 @@ class App extends React.Component {
           tasks={ this.state.tasks } 
           onCreate= { this.create } 
           onUpdate= {this.update }
+          onDelete= { this.delete }
           onIndent= { this.indent }
-          onOutdent= { this.indent } />
+          onOutdent= { this.indent } 
+          />
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" 

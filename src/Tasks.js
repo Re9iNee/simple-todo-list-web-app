@@ -5,6 +5,23 @@ import "./styles/Tasks.css";
 class Tasks extends React.Component {
     handleKeydown = (event, id, task, index) => {
         // FIXME: optimize (duplicate vars)
+
+        // Remove A Parent - Semi-Parent (no childs only big Title)
+        // on Ctrl+Shift+Delete -> Windows - Removing a Task
+        if (event.ctrlKey)
+            if (event.shiftKey)
+                if (event.keyCode === 8){
+                    event.stopPropagation();
+                    this.props.onDelete(event, id)
+                }
+        // on Command + Delete -> Mac - Removing a Task
+        if (event.metaKey)
+            if (event.keyCode === 8) {
+                event.stopPropagation();
+                this.props.onDelete(event, id)
+            }
+
+        
         // (onFocus)Enter -> New Task
         // TODO: dblCheck enter KeyCode in windows
         if (event.keyCode === 13) {
@@ -36,7 +53,24 @@ class Tasks extends React.Component {
         this.props.onUpdate(event, id, title)
     }
 
-    handleOutdent = (event, child, childIndex, Pindex) => {
+    handleChildKeydown = (event, child, childIndex, Pindex) => {
+        // Remove A Parent - Semi-Parent (no childs only big Title)
+        // on Ctrl+Shift+Delete -> Windows - Removing a Task
+        if (event.ctrlKey)
+            if (event.shiftKey)
+                if (event.keyCode === 8){
+                    event.stopPropagation();
+                    this.props.onDelete(event, child.id)
+                }
+        // on Command + Delete -> Mac - Removing a Task
+        if (event.metaKey)
+            if (event.keyCode === 8) {
+                event.stopPropagation();
+                this.props.onDelete(event, child.id)
+            }
+
+
+        // On Tab Key, Indent Outdent Toggle
         if (event.keyCode === 9) {
             event.preventDefault();
             event.stopPropagation();
@@ -65,7 +99,7 @@ class Tasks extends React.Component {
                             <li 
                             key={child.id} 
                             onDoubleClick= { (ev) => this.handleDblClick(ev, child.id, child.title) }
-                            onKeyDown= { (ev) => this.handleOutdent(ev, child, childIndex, index) }
+                            onKeyDown= { (ev) => this.handleChildKeydown(ev, child, childIndex, index) }
                             tabIndex="0">{child.title}</li>)}
                         </ul>
                         }
