@@ -13,7 +13,9 @@ class Tasks extends React.Component {
             this.props.onCreate(event, id);
         }
 
-        if (event.shiftKey) {
+        // (onFocus)Tab -> Indent Outdent Toggle
+        if (event.keyCode === 9) {
+            event.preventDefault();
             // 0.5: is it the first element in a list? y (do nothing)
             // 1. is this task has children? y (Do nothing)
             // 2. n? (Indent to its parent)
@@ -35,7 +37,7 @@ class Tasks extends React.Component {
     }
 
     handleOutdent = (event, child, childIndex, Pindex) => {
-        if (event.shiftKey) {
+        if (event.keyCode === 9) {
             event.preventDefault();
             event.stopPropagation();
 
