@@ -6,6 +6,7 @@ import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* url: the name of a database to load tasks. or init your app as an empty one */}
     <App url='default' />
   </React.StrictMode>,
   document.getElementById('root')
