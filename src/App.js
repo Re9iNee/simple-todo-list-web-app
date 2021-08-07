@@ -21,6 +21,7 @@ class App extends React.Component {
     this.deactivateModal = this.deactivateModal.bind(this);
   }
   handleKeyDown(event) { 
+    // TODO: on(Escape) key close modal
     // TODO: bring back preventDefaults()
     // TODO: dblClick -> Rename
     const activeEl = document.querySelector("li:focus");
@@ -150,6 +151,15 @@ class App extends React.Component {
       parentId: parentId
     })
   }
+  update = (event, id, title) => {
+    this.setState({
+      showModal: true,
+      mode: 2,
+      tempId: id,
+      tempTitle: title,
+    })
+
+  }
   deactivateModal (event) {
     this.setState({
       showModal: false,
@@ -197,7 +207,10 @@ class App extends React.Component {
         <div className="container" id="taskContainer" 
         // TODO: the state will update even by a single click (even if modal is not activated )
         onClick={(ev) => this.deactivateModal("myModal", ev)}>
-          <Tasks tasks={ this.state.tasks } onCreate= { this.create } />
+          <Tasks 
+          tasks={ this.state.tasks } 
+          onCreate= { this.create } 
+          onUpdate= {this.update }/>
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" 
@@ -212,7 +225,7 @@ class App extends React.Component {
             primaryButtonTitle= { this.state.mode === 1 ? 'Create' : 'Rename' } 
             transmitData = { this.gotData } 
             // TODO: add value in updateMode
-            value= { this.state.mode === 1 ? '' : '' }
+            value= { this.state.mode === 2 ? this.state.tempTitle : '' }
             deactivateModal= { this.deactivateModal }
           />
           }
@@ -244,6 +257,14 @@ class App extends React.Component {
       case 2: {
         // TODO: write update - rename - child indents
         // Update
+        // Renaming a task
+        let data = [...this.state.tasks];
+        for (const v of data) {
+          if (v.id === this.state.tempId) {
+            v.title = childData
+          }
+        }
+        this.state.storage.set(data)
         break;
       }
       default: {
@@ -254,6 +275,8 @@ class App extends React.Component {
       showModal: false,
       mode: 0,
       parentId: null,
+      tempId: null,
+      tempTitle: null,
     })
   }
 }

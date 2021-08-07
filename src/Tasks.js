@@ -12,6 +12,10 @@ class Tasks extends React.Component {
             this.props.onCreate(event, id);
         }
     }
+    handleDblClick = (event, id, title) => {
+        event.stopPropagation();
+        this.props.onUpdate(event, id, title)
+    }
     render() {
         return (
             <ul>
@@ -19,12 +23,16 @@ class Tasks extends React.Component {
                     <li 
                     tabIndex="0"
                     key = { task.id } 
-                    onKeyDown = { (ev) => this.handleKeydown(ev, task.id) }>
+                    onKeyDown = { (ev) => this.handleKeydown(ev, task.id) }
+                    onDoubleClick= { (ev) => this.handleDblClick(ev, task.id, task.title) }>
                         {task.title}
                         {task.children.length > 0 && 
                         <ul>
                             {task.children.map((child) => 
-                            <li key={child.id} tabIndex="0">{child.title}</li>)}
+                            <li 
+                            key={child.id} 
+                            onDoubleClick= { (ev) => this.handleDblClick(ev, child.id, child.title) }
+                            tabIndex="0">{child.title}</li>)}
                         </ul>
                         }
                     </li>
