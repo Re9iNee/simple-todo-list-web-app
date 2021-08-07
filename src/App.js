@@ -222,10 +222,11 @@ class App extends React.Component {
   gotData = (childData) => {
     switch (this.state.mode) { 
       case 1: {
-        const data = [...this.state.tasks];
+        let data = [...this.state.tasks];
+        let newTask = { title: childData, timestamp: Date.now(), id: this.state.idCounter }
         if (this.state.parentId) {
           // Append
-          const newTask = { title: childData, timestamp: Date.now(), id: this.state.idCounter }
+          // Finds the parent and push newTask in it's children array
           for (const v of data){
             if (v.id === this.state.parentId) {
                 v.children.push(newTask)
@@ -233,8 +234,8 @@ class App extends React.Component {
           }
         } else {
           // Create
-          const data = [...this.state.tasks];
-          const newTask = { title: childData, children: [], timestamp: Date.now(), id: this.state.idCounter }
+          // if its a big Task (Parent Similar), add children to its Object (for later use).
+          Object.assign(newTask, {children: []});
           data.push(newTask)
         }
         this.state.storage.set(data)
