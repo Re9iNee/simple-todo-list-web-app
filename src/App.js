@@ -10,76 +10,23 @@ class App extends React.Component {
     this.state = {
       idCounter: 0,
       showModal: false,
-      createMode: false,
-      updateMode: true,
+      mode: 0,
+      // 0 for read, 1 for create, 2 for update
       tasks: [],
       // localStorage obj
       storage: new database(props.url),
+      parentId: null,
     };
     // deactive modal from Child Components
     this.deactivateModal = this.deactivateModal.bind(this);
   }
   handleKeyDown(event) { 
+    // TODO: on(Escape) key close modal
     // TODO: bring back preventDefaults()
-    // TODO: dblClick -> Rename
     const activeEl = document.querySelector("li:focus");
     // (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
     // TODO: dblCheck delete keyCode in Windows
     if (activeEl) {
-      // Windows
-      if (event.ctrlKey)
-        if (event.shiftKey)
-          if (event.keyCode === 8) {
-            console.log("Remove a task")
-            // event.preventDefault();
-          }
-
-      // Mac
-      if (event.metaKey)
-        if (event.keyCode === 8) {
-          console.log("Remove a task")
-          // event.preventDefault();
-        }
-
-      // (onFocus)Enter -> New Task
-      // TODO: dblCheck enter KeyCode in windows
-      if (event.keyCode === 13) {
-        console.log("New Task")
-        // event.preventDefault();
-      }
-
-      // (onFocus)Tab -> Indent Outdent
-      if (event.keyCode === 9) {
-        // event.preventDefault();
-        // on tab keyDown
-        const taskContainer = document.getElementById("taskContainer");
-        const grandParentEl = activeEl.parentElement.parentElement;
-        if (grandParentEl === taskContainer) {
-          // Indent
-          // TODO: don't Indent the Parent.
-          const prevSibEl = activeEl.previousElementSibling;
-          // if prevSibling exists: appendChild to previousSibling
-          if (prevSibEl) {
-            // if prevSibEl has ul child append to that otherwise create a new one
-            const ulExist = prevSibEl.firstElementChild;
-            if (ulExist) {
-              ulExist.appendChild(activeEl)
-            } else {
-              const ul = document.createElement("ul");
-              ul.appendChild(activeEl)
-              prevSibEl.appendChild(ul);
-            }
-          }
-          // else: Do Nothing
-          // active element has no previous sibling to indent (OR one list item is only available)
-        } else if (grandParentEl.tagName === "LI") {
-          // Outdent
-          grandParentEl.insertAdjacentElement("afterend", activeEl)
-        }
-        activeEl.focus()
-      }
-
-
       // Documentation: Keyboard Navigation - Arrow Key Up.pdf
       // Priority List: PrevSibLastChild - PrevSib - Parent(GParent)
       if (event.keyCode === 38) {
@@ -143,14 +90,31 @@ class App extends React.Component {
     
   } 
 
-  create = (event) => {
+  create = (event, parentId = null) => {
     event.stopPropagation();
     this.setState({
       showModal: true,
-      createMode: true,
-      updateMode: false
+      mode: 1,
+      parentId: parentId
     })
   }
+  update = (event, id, title) => {
+    this.setState({
+      showModal: true,
+      mode: 2,
+      tempId: id,
+      tempTitle: title,
+    })
+  }
+  delete = (event, id) => {
+    this.state.storage.delete(id);
+    this.setState({
+      refresh: true
+    })
+  }
+
+
+
   deactivateModal (event) {
     this.setState({
       showModal: false,
@@ -166,30 +130,6 @@ class App extends React.Component {
       idCounter: state.storage.getLastId() + 1,
     }
   }
-  componentDidMount() {
-    // ----- Debug Only -------
-    // 2
-    // this.state.storage.set([{
-    //   title: "Wash Clothes",
-    //   id: 1,
-    //   children: [{
-    //     title: "Sport Clothes",
-    //     id: 2,
-    //   }, {
-    //     title: "Casuals",
-    //     id: 3
-    //   }]
-    // }, {
-    //   title: "Groceries",
-    //   id: 4,
-    //   children: []
-    // }, {
-    //   title: "Fix Mac",
-    //   id: 5,
-    //   children: []
-    // }])
-    // ----- DEBUG ONLY END------
-  }
 
   render() {
     window.addEventListener("keydown", this.handleKeyDown);
@@ -198,7 +138,14 @@ class App extends React.Component {
         <div className="container" id="taskContainer" 
         // TODO: the state will update even by a single click (even if modal is not activated )
         onClick={(ev) => this.deactivateModal("myModal", ev)}>
-          <Tasks tasks={ this.state.tasks } />
+          <Tasks 
+          tasks={ this.state.tasks } 
+          onCreate= { this.create } 
+          onUpdate= {this.update }
+          onDelete= { this.delete }
+          onIndent= { this.indent }
+          onOutdent= { this.indent } 
+          />
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" 
@@ -207,30 +154,77 @@ class App extends React.Component {
         </div>
         { this.state.showModal &&
           <Modal 
-            title= { this.state.createMode ? 'Create Task' : 'Rename Task' } 
+            title= { this.state.mode === 1 ? 'Create Task' : 'Rename Task' } 
             inputTitle= "task name" 
             inputPlaceHolder= "e.g: Wash Clothes" 
-            primaryButtonTitle= { this.state.createMode ? 'Create' : 'Rename' } 
+            primaryButtonTitle= { this.state.mode === 1 ? 'Create' : 'Rename' } 
             transmitData = { this.gotData } 
             // TODO: add value in updateMode
-            value= { this.state.createMode ? '' : '' }
+            value= { this.state.mode === 2 ? this.state.tempTitle : '' }
             deactivateModal= { this.deactivateModal }
           />
           }
       </div>
     )
   }
+  indent = (data) => {
+    this.state.storage.set(data);
+    this.setState({
+      tasks: data
+    })
+  }
   gotData = (childData) => {
-     if (this.state.createMode) {
-      const data = [...this.state.tasks];
-      const newTask = { title: childData, children: [], timestamp: Date.now(), id: this.state.idCounter }
-      data.push(newTask)
-      this.state.storage.set(data)
+    switch (this.state.mode) { 
+      case 1: {
+        let data = [...this.state.tasks];
+        let newTask = { title: childData, timestamp: Date.now(), id: this.state.idCounter }
+        if (this.state.parentId) {
+          // Append
+          // Finds the parent and push newTask in it's children array
+          for (const v of data){
+            if (v.id === this.state.parentId) {
+                v.children.push(newTask)
+            }
+          }
+        } else {
+          // Create
+          // if its a big Task (Parent Similar), add children to its Object (for later use).
+          Object.assign(newTask, {children: []});
+          data.push(newTask)
+        }
+        this.state.storage.set(data)
+        break;
+      }
+      case 2: {
+        // TODO: write update - rename - child indents
+        // Update
+        // Renaming a task
+        let data = [...this.state.tasks];
+        for (const v of data) {
+          for (const cV of v.children) {
+            if (cV.id === this.state.tempId){
+              cV.title = childData;
+              break;
+            }
+          }
+          if (v.id === this.state.tempId) {
+            v.title = childData
+            break;
+          }
+        }
+        this.state.storage.set(data)
+        break;
+      }
+      default: {
+        break;
+      }
     }
     this.setState({
       showModal: false,
-      createMode: false,
-      updateMode: true,
+      mode: 0,
+      parentId: null,
+      tempId: null,
+      tempTitle: null,
     })
   }
 }

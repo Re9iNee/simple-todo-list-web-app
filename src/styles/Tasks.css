@@ -4,7 +4,7 @@
 li:focus {
     background-color: yellow;
     border-radius: 5px;
-    padding: 12px;
+    /* padding: 12px; */
 }
 
 a:focus {

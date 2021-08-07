@@ -94,7 +94,8 @@
                 // on tab keyDown
                 const taskContainer = document.getElementById("taskContainer");
                 const grandParentEl = activeEl.parentElement.parentElement;
-                if (grandParentEl == taskContainer) {
+                if (grandParentEl == taskContainer && !activeEl.children.length) {
+                    // second condition statement: indent if its not a parent
                     // Indent
                     const prevSibEl = activeEl.previousElementSibling;
                     try {
@@ -125,6 +126,11 @@
                     }
                 } else if (grandParentEl.tagName == "LI") {
                     // Outdent
+                    if (activeEl.parentElement.children.length == 1) {
+                        grandParentEl.insertAdjacentElement("afterend", activeEl)
+                        grandParentEl.removeChild(grandParentEl.firstElementChild)
+                        // When indent, we check for the element to see if its a parent or not. when outdenting the last child of an element, we remove "UL" childNode from it to fully become non-parent
+                    }
                     grandParentEl.insertAdjacentElement("afterend", activeEl)
                 }
                 activeEl.focus()
