@@ -49,7 +49,15 @@ class Modal extends React.Component {
                 <div className="modalBody">
                     <div>
                         <header className="body body-small inputHeader">{this.props.inputTitle}</header>
-                        <input type="text" required className="body body-large modalInput" name="value" id="modalInput" placeholder={this.props.inputPlaceHolder} defaultValue={this.state.value} onChange= {this.handleChange}/>
+                        <input 
+                            type="text" 
+                            required 
+                            autoFocus
+                            className="body body-large modalInput" 
+                            name="value" 
+                            id="modalInput" 
+                            placeholder= { this.props.inputPlaceHolder } defaultValue= { this.state.value } 
+                            onChange= { this.handleChange }/>
                     </div>
                 </div>
                 <hr/>

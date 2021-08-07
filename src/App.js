@@ -158,15 +158,16 @@ class App extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    // 1
+    // state.storage.remove()
     return {
       tasks: state.storage.get(),
-      idCounter: state.storage.getLastId(),
+      // make this id unique
+      idCounter: state.storage.getLastId() + 1,
     }
   }
   componentDidMount() {
     // ----- Debug Only -------
-    // 1
-    // this.state.storage.remove()
     // 2
     // this.state.storage.set([{
     //   title: "Wash Clothes",
@@ -194,7 +195,6 @@ class App extends React.Component {
     window.addEventListener("keydown", this.handleKeyDown);
     return (
       <div>
-        <pre>{this.state.idCounter}</pre>
         <div className="container" id="taskContainer" 
         // TODO: the state will update even by a single click (even if modal is not activated )
         onClick={(ev) => this.deactivateModal("myModal", ev)}>
@@ -221,7 +221,12 @@ class App extends React.Component {
     )
   }
   gotData = (childData) => {
-    
+     if (this.state.createMode) {
+      const data = [...this.state.tasks];
+      const newTask = { title: childData, children: [], timestamp: Date.now(), id: this.state.idCounter }
+      data.push(newTask)
+      this.state.storage.set(data)
+    }
     this.setState({
       showModal: false,
       createMode: false,
