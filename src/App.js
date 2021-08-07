@@ -10,11 +10,12 @@ class App extends React.Component {
     this.state = {
       idCounter: 0,
       showModal: false,
-      createMode: false,
-      updateMode: true,
+      mode: 0,
+      // 0 for read, 1 for create, 2 for update
       tasks: [],
       // localStorage obj
       storage: new database(props.url),
+      parentId: null,
     };
     // deactive modal from Child Components
     this.deactivateModal = this.deactivateModal.bind(this);
@@ -41,12 +42,6 @@ class App extends React.Component {
           // event.preventDefault();
         }
 
-      // (onFocus)Enter -> New Task
-      // TODO: dblCheck enter KeyCode in windows
-      if (event.keyCode === 13) {
-        console.log("New Task")
-        // event.preventDefault();
-      }
 
       // (onFocus)Shift -> Indent Outdent
       if (event.shiftKey) {
@@ -147,12 +142,12 @@ class App extends React.Component {
     
   } 
 
-  create = (event) => {
+  create = (event, parentId = null) => {
     event.stopPropagation();
     this.setState({
       showModal: true,
-      createMode: true,
-      updateMode: false
+      mode: 1,
+      parentId: parentId
     })
   }
   deactivateModal (event) {
@@ -202,7 +197,7 @@ class App extends React.Component {
         <div className="container" id="taskContainer" 
         // TODO: the state will update even by a single click (even if modal is not activated )
         onClick={(ev) => this.deactivateModal("myModal", ev)}>
-          <Tasks tasks={ this.state.tasks } />
+          <Tasks tasks={ this.state.tasks } onCreate= { this.create } />
         </div>
         <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
             <button className="btn primary-btn" id="addBtn" 
@@ -211,13 +206,13 @@ class App extends React.Component {
         </div>
         { this.state.showModal &&
           <Modal 
-            title= { this.state.createMode ? 'Create Task' : 'Rename Task' } 
+            title= { this.state.mode === 1 ? 'Create Task' : 'Rename Task' } 
             inputTitle= "task name" 
             inputPlaceHolder= "e.g: Wash Clothes" 
-            primaryButtonTitle= { this.state.createMode ? 'Create' : 'Rename' } 
+            primaryButtonTitle= { this.state.mode === 1 ? 'Create' : 'Rename' } 
             transmitData = { this.gotData } 
             // TODO: add value in updateMode
-            value= { this.state.createMode ? '' : '' }
+            value= { this.state.mode === 1 ? '' : '' }
             deactivateModal= { this.deactivateModal }
           />
           }
@@ -225,16 +220,39 @@ class App extends React.Component {
     )
   }
   gotData = (childData) => {
-     if (this.state.createMode) {
-      const data = [...this.state.tasks];
-      const newTask = { title: childData, children: [], timestamp: Date.now(), id: this.state.idCounter }
-      data.push(newTask)
-      this.state.storage.set(data)
+    switch (this.state.mode) { 
+      case 1: {
+        const data = [...this.state.tasks];
+        if (this.state.parentId) {
+          // Append
+          const newTask = { title: childData, timestamp: Date.now(), id: this.state.idCounter }
+          for (const v of data){
+            if (v.id === this.state.parentId) {
+                v.children.push(newTask)
+            }
+          }
+        } else {
+          // Create
+          const data = [...this.state.tasks];
+          const newTask = { title: childData, children: [], timestamp: Date.now(), id: this.state.idCounter }
+          data.push(newTask)
+        }
+        this.state.storage.set(data)
+        break;
+      }
+      case 2: {
+        // TODO: write update - rename - child indents
+        // Update
+        break;
+      }
+      default: {
+        break;
+      }
     }
     this.setState({
       showModal: false,
-      createMode: false,
-      updateMode: true,
+      mode: 0,
+      parentId: null,
     })
   }
 }
