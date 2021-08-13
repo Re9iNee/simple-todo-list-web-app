@@ -91,12 +91,14 @@ class Tasks extends React.Component {
                     tabIndex="0"
                     key = { task.id } 
                     onKeyDown = { (ev) => this.handleKeydown(ev, task.id, task, index) }
-                    onDoubleClick= { (ev) => this.handleDblClick(ev, task.id, task.title) }>
+                    onDoubleClick= { (ev) => this.handleDblClick(ev, task.id, task.title) }
+                    data-test='parent-task'>
                         {task.title}
                         {task.children.length > 0 && 
                         <ul>
                             {task.children.map((child, childIndex) => 
                             <li 
+                            data-test='child-task'
                             key={child.id} 
                             onDoubleClick= { (ev) => this.handleDblClick(ev, child.id, child.title) }
                             onKeyDown= { (ev) => this.handleChildKeydown(ev, child, childIndex, index) }
