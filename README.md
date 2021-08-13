@@ -1,3 +1,8 @@
+# Test Cases
+Test Cases cover basics functionality of the app
+## End to End Testing using Cypress
+![Succesfull tests](https://)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
