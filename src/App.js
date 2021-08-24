@@ -137,7 +137,6 @@ class App extends React.Component {
         <div
           className="container"
           id="taskContainer"
-          data-test="task-container"
           // TODO: the state will update even by a single click (even if modal is not activated )
           onClick={(ev) => this.deactivateModal("myModal", ev)}
         >

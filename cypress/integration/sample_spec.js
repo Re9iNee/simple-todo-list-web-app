@@ -60,15 +60,10 @@ describe("basics", function () {
     cy.get("[data-test=child-task]").should("have.text", nTitle);
   });
 
-  // it("delete task", function () {
-  // FIXME: i dont know how to trigger multiple keydowns
-  //     cy.get('li').contains(title)
-  //     .click()
-  //     // .trigger('keydown', { keyCode: 17, release: false, force: true })
-  //     // .trigger('keydown', { keyCode: 16, release: false, force: true })
-  //     // .trigger('keydown', { keyCode: 8, release: true, force: true })
-  //     cy.get('li').contains(title).keydown(17)
-  // })
+it("delete task", function () {
+    cy.get("li").contains(title).click().type('{command+backspace}')
+    cy.get('[data-test=parent-container]').should('be.empty')
+  });
 });
 
 // What basic Things our app Does:
@@ -79,3 +74,4 @@ describe("basics", function () {
 // FIXME: Specified tests: form shouldnt be sumbitted on empty string - required input won't stop it
 // TODO: Keyboard Navigation
 // TODO: tasks are loading after page load. (cy.reload())
+// TODO: it delets child task
