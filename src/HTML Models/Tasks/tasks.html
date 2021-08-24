@@ -1,204 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
 
-        body {
-            margin: 0 auto;
-            height: 100vh;
-            height: calc(var(--vh, 1vh) * 100);
-            width: 100vw;
-        }
+      body {
+        margin: 0 auto;
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+        width: 100vw;
+      }
 
+      li:focus {
+        background-color: yellow;
+        border-radius: 5px;
+        padding: 12px;
+      }
 
-        li:focus {
-            background-color: yellow;
-            border-radius: 5px;
-            padding: 12px;
-        }
-
-        a:focus {
-            background-color: green;
-        }
+      a:focus {
+        background-color: green;
+      }
     </style>
     <title>Tasks</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container" id="taskContainer">
-        <!-- NOTE: solution 1 -->
-        <ul>
-            <li tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur necessitatibus quidem
-                animi, facilis nisi, temporibus explicabo incidunt deleniti consequuntur sint voluptatibus veniam
-                accusantium nemo velit, iste dolorum dignissimos aliquid quibusdam.</li>
-            <li tabindex="0">Nihil repellat doloribus doloremque deserunt est, officiis sed omnis odit earum
-                consequuntur obcaecati illo sapiente. Dolorem molestias itaque, quam ducimus quod omnis accusamus, aut
-                expedita soluta necessitatibus nisi saepe ad?</li>
-            <li tabindex="0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, sed exercitationem deleniti mollitia,
-                fugit, architecto incidunt magnam laudantium dolore ea veritatis quasi et odio. Minima animi quis ea
-                voluptates vel?
-                <ul>
-                    <li tabindex="0">lorem</li>
-                    <li tabindex="0">AME</li>
-                </ul>
-            </li>
-            <li tabindex="0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste tempore quidem odio omnis
-                voluptate dicta sequi. Repudiandae quas qui animi nihil, commodi blanditiis quisquam minus rerum
-                voluptatem nostrum dolorem. Quidem?</li>
-        </ul>
+      <!-- NOTE: solution 1 -->
+      <ul>
+        <li tabindex="0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
+          necessitatibus quidem animi, facilis nisi, temporibus explicabo
+          incidunt deleniti consequuntur sint voluptatibus veniam accusantium
+          nemo velit, iste dolorum dignissimos aliquid quibusdam.
+        </li>
+        <li tabindex="0">
+          Nihil repellat doloribus doloremque deserunt est, officiis sed omnis
+          odit earum consequuntur obcaecati illo sapiente. Dolorem molestias
+          itaque, quam ducimus quod omnis accusamus, aut expedita soluta
+          necessitatibus nisi saepe ad?
+        </li>
+        <li tabindex="0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, sed
+          exercitationem deleniti mollitia, fugit, architecto incidunt magnam
+          laudantium dolore ea veritatis quasi et odio. Minima animi quis ea
+          voluptates vel?
+          <ul>
+            <li tabindex="0">lorem</li>
+            <li tabindex="0">AME</li>
+          </ul>
+        </li>
+        <li tabindex="0">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste tempore
+          quidem odio omnis voluptate dicta sequi. Repudiandae quas qui animi
+          nihil, commodi blanditiis quisquam minus rerum voluptatem nostrum
+          dolorem. Quidem?
+        </li>
+      </ul>
     </div>
-</body>
-<script>
+  </body>
+  <script>
     // TODO: dblClick -> Rename
 
-    document.addEventListener("keydown", event => {
-        const activeEl = document.querySelector("li:focus");
-        // (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
-        // TODO: dblCheck delete keyCode in Windows
-        if (activeEl) {
-            // Windows
-            if (event.ctrlKey)
-                if (event.shiftKey)
-                    if (event.keyCode == 8) {
-                        console.log("Remove a task")
-                        event.preventDefault();
-                    }
-
-            // Mac
-            if (event.metaKey)
-                if (event.keyCode == 8) {
-                    console.log("Remove a task")
-                    event.preventDefault();
-                }
-
-            // (onFocus)Enter -> New Task
-            // TODO: dblCheck enter KeyCode in windows
-            if (event.keyCode == 13) {
-                console.log("New Task")
-                event.preventDefault();
+    document.addEventListener("keydown", (event) => {
+      const activeEl = document.querySelector("li:focus");
+      // (onFocus)Ctrl + Shift + Delete | CMD + Delete -> Remove Task
+      // TODO: dblCheck delete keyCode in Windows
+      if (activeEl) {
+        // Windows
+        if (event.ctrlKey)
+          if (event.shiftKey)
+            if (event.keyCode == 8) {
+              console.log("Remove a task");
+              event.preventDefault();
             }
 
-            // (onFocus)Tab -> Indent Outdent
-            if (event.keyCode == 9) {
-                event.preventDefault();
-                // on tab keyDown
-                const taskContainer = document.getElementById("taskContainer");
-                const grandParentEl = activeEl.parentElement.parentElement;
-                if (grandParentEl == taskContainer && !activeEl.children.length) {
-                    // second condition statement: indent if its not a parent
-                    // Indent
-                    const prevSibEl = activeEl.previousElementSibling;
-                    try {
-                        if (activeEl.firstElementChild.tagName == "UL"){
-                            // Do Not Indent
-                            // we don't need nested Childrens - (when parent became a child to other parent)
-                            // This will prevent:
-                            // - Parent
-                                // - Parent
-                                    // + Child
-                            // - Parent
-                        }
-                    } catch (err) {
-                        // if prevSibling exists: appendChild to previousSibling
-                        if (prevSibEl) {
-                            // if prevSibEl has ul child append to that otherwise create a new one
-                            const ulExist = prevSibEl.firstElementChild;
-                            if (ulExist) {
-                                ulExist.appendChild(activeEl)
-                            } else {
-                                const ul = document.createElement("ul");
-                                ul.appendChild(activeEl)
-                                prevSibEl.appendChild(ul);
-                            }
-                        }
-                        // else: Do Nothing
-                        // active element has no previous sibling to indent (OR one list item is only available)
-                    }
-                } else if (grandParentEl.tagName == "LI") {
-                    // Outdent
-                    if (activeEl.parentElement.children.length == 1) {
-                        grandParentEl.insertAdjacentElement("afterend", activeEl)
-                        grandParentEl.removeChild(grandParentEl.firstElementChild)
-                        // When indent, we check for the element to see if its a parent or not. when outdenting the last child of an element, we remove "UL" childNode from it to fully become non-parent
-                    }
-                    grandParentEl.insertAdjacentElement("afterend", activeEl)
-                }
-                activeEl.focus()
-            }
-
-
-            // Documentation: Keyboard Navigation - Arrow Key Up.pdf
-            // Priority List: PrevSibLastChild - PrevSib - Parent(GParent)
-            if (event.keyCode == 38) {
-                event.preventDefault();
-                // Arrow Key Up
-                try {
-                    // 1st Priority - prevSibLastChild
-                    const prevSibLastChild = activeEl.previousElementSibling.firstElementChild.lastElementChild;
-                    prevSibLastChild.focus()
-                } catch {
-                    try {
-                        const prevSibEl = activeEl.previousElementSibling;
-                        prevSibEl.focus()
-                    } catch {
-                        try {
-                            const grandPaEl = activeEl.parentElement.parentElement;
-                            grandPaEl.focus()
-                        } catch {
-                            // Do Nothing
-                        }
-                    }
-                }
-            }
-            // Documentation: Keyboard Navigation - Arrow Key Down.pdf
-            // Priority List: Child - Next Sib - GParent Sib
-            if (event.keyCode == 40) {
-                event.preventDefault();
-                // Arrow Key Down
-                try {
-                    // 1st Priority - Child
-                    const childEl = activeEl.firstElementChild.firstElementChild;
-                    childEl.focus()
-                } catch {
-                    try {
-                        // 2nd Priority - Next Sibling
-                        const nextSiblingEl = activeEl.nextElementSibling;
-                        nextSiblingEl.focus()
-                    } catch {
-                        try {
-                            // 3rd Priority - grandParentSibling
-                            const grandPaSibEl = activeEl.parentElement.parentElement.nextElementSibling;
-                            grandPaSibEl.focus()
-                        } catch {
-                            // Do Nothing
-                        }
-                    }
-                }
-            }
-        }
-        // Keyboard Navigation if we don't have any focused element
-        else {
+        // Mac
+        if (event.metaKey)
+          if (event.keyCode == 8) {
+            console.log("Remove a task");
             event.preventDefault();
-            const taskContainer = document.getElementById("taskContainer");
-            if (event.keyCode == 38) {
-                // Arrow Key Up
-                taskContainer.firstElementChild.lastElementChild.focus()
-            } else if (event.keyCode == 40) {
-                taskContainer.firstElementChild.firstElementChild.focus()
-            }
+          }
+
+        // (onFocus)Enter -> New Task
+        // TODO: dblCheck enter KeyCode in windows
+        if (event.keyCode == 13) {
+          console.log("New Task");
+          event.preventDefault();
         }
 
-    })
-</script>
+        // (onFocus)Tab -> Indent Outdent
+        if (event.keyCode == 9) {
+          event.preventDefault();
+          // on tab keyDown
+          const taskContainer = document.getElementById("taskContainer");
+          const grandParentEl = activeEl.parentElement.parentElement;
+          if (grandParentEl == taskContainer && !activeEl.children.length) {
+            // second condition statement: indent if its not a parent
+            // Indent
+            const prevSibEl = activeEl.previousElementSibling;
+            try {
+              if (activeEl.firstElementChild.tagName == "UL") {
+                // Do Not Indent
+                // we don't need nested Childrens - (when parent became a child to other parent)
+                // This will prevent:
+                // - Parent
+                // - Parent
+                // + Child
+                // - Parent
+              }
+            } catch (err) {
+              // if prevSibling exists: appendChild to previousSibling
+              if (prevSibEl) {
+                // if prevSibEl has ul child append to that otherwise create a new one
+                const ulExist = prevSibEl.firstElementChild;
+                if (ulExist) {
+                  ulExist.appendChild(activeEl);
+                } else {
+                  const ul = document.createElement("ul");
+                  ul.appendChild(activeEl);
+                  prevSibEl.appendChild(ul);
+                }
+              }
+              // else: Do Nothing
+              // active element has no previous sibling to indent (OR one list item is only available)
+            }
+          } else if (grandParentEl.tagName == "LI") {
+            // Outdent
+            if (activeEl.parentElement.children.length == 1) {
+              grandParentEl.insertAdjacentElement("afterend", activeEl);
+              grandParentEl.removeChild(grandParentEl.firstElementChild);
+              // When indent, we check for the element to see if its a parent or not. when outdenting the last child of an element, we remove "UL" childNode from it to fully become non-parent
+            }
+            grandParentEl.insertAdjacentElement("afterend", activeEl);
+          }
+          activeEl.focus();
+        }
 
+        // Documentation: Keyboard Navigation - Arrow Key Up.pdf
+        // Priority List: PrevSibLastChild - PrevSib - Parent(GParent)
+        if (event.keyCode == 38) {
+          event.preventDefault();
+          // Arrow Key Up
+          try {
+            // 1st Priority - prevSibLastChild
+            const prevSibLastChild =
+              activeEl.previousElementSibling.firstElementChild
+                .lastElementChild;
+            prevSibLastChild.focus();
+          } catch {
+            try {
+              const prevSibEl = activeEl.previousElementSibling;
+              prevSibEl.focus();
+            } catch {
+              try {
+                const grandPaEl = activeEl.parentElement.parentElement;
+                grandPaEl.focus();
+              } catch {
+                // Do Nothing
+              }
+            }
+          }
+        }
+        // Documentation: Keyboard Navigation - Arrow Key Down.pdf
+        // Priority List: Child - Next Sib - GParent Sib
+        if (event.keyCode == 40) {
+          event.preventDefault();
+          // Arrow Key Down
+          try {
+            // 1st Priority - Child
+            const childEl = activeEl.firstElementChild.firstElementChild;
+            childEl.focus();
+          } catch {
+            try {
+              // 2nd Priority - Next Sibling
+              const nextSiblingEl = activeEl.nextElementSibling;
+              nextSiblingEl.focus();
+            } catch {
+              try {
+                // 3rd Priority - grandParentSibling
+                const grandPaSibEl =
+                  activeEl.parentElement.parentElement.nextElementSibling;
+                grandPaSibEl.focus();
+              } catch {
+                // Do Nothing
+              }
+            }
+          }
+        }
+      }
+      // Keyboard Navigation if we don't have any focused element
+      else {
+        event.preventDefault();
+        const taskContainer = document.getElementById("taskContainer");
+        if (event.keyCode == 38) {
+          // Arrow Key Up
+          taskContainer.firstElementChild.lastElementChild.focus();
+        } else if (event.keyCode == 40) {
+          taskContainer.firstElementChild.firstElementChild.focus();
+        }
+      }
+    });
+  </script>
 </html>

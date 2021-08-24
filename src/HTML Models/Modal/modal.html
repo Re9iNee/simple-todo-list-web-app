@@ -1,264 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
 
-        body {
-            margin: 0 auto;
-            height: 100vh;
-            height: calc(var(--vh, 1vh) * 100);
-            width: 100vw;
+      body {
+        margin: 0 auto;
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+        width: 100vw;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
 
-            background-color: #f1f1f1;
+        background-color: #f1f1f1;
 
-            transition: 0.3s all ease-in-out;
-        }
+        transition: 0.3s all ease-in-out;
+      }
 
-        .task {
-            position: absolute;
-        }
+      .task {
+        position: absolute;
+      }
 
+      .modal {
+        width: 500px;
+        height: 300px;
+        border-radius: 20px;
+        background-color: #fbfbff;
+        border: 1px solid #ccc;
+        position: absolute;
+        transform: translateY(-100vh);
+        transition: 0.5s all ease-in-out;
+        display: flex;
+        flex-direction: column;
+      }
 
-        .modal {
-            width: 500px;
-            height: 300px;
-            border-radius: 20px;
-            background-color: #FBFBFF;
-            border: 1px solid #ccc;
-            position: absolute;
-            transform: translateY(-100vh);
-            transition: 0.5s all ease-in-out;
-            display: flex;
-            flex-direction: column;
-        }
+      div.form-btn-group {
+        display: flex;
+        justify-content: space-around;
+      }
 
-        div.form-btn-group {
-            display: flex;
-            justify-content: space-around;
-        }
+      .modal.active {
+        transform: translateY(0);
+      }
 
-        .modal.active {
-            transform: translateY(0);
-        }
+      .modalActivated {
+        filter: blur(5px) grayscale(30%);
+      }
 
-        .modalActivated {
-            filter: blur(5px) grayscale(30%);
-        }
+      /* Displays */
+      .modal .modalHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        flex-grow: 1;
+      }
 
+      .modal .modalBody {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+      }
 
-        /* Displays */
-        .modal .modalHeader {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            flex-grow: 1;
-        }
+      .modalBody > * {
+        display: flex;
+        flex-direction: column;
+      }
 
-        .modal .modalBody {
-            display: flex;
-            flex-direction: column;
-            padding: 12px;
-        }
+      .modal .inputHeader {
+        align-self: flex-start;
+        padding: 3px;
+      }
 
-        .modalBody>* {
-            display: flex;
-            flex-direction: column;
-        }
+      .modal .modalInput {
+        align-self: center;
+        flex-grow: 4;
+        min-width: 100%;
+        border-radius: 5px;
+        background-color: #efefef;
+        border: none;
+        padding-left: 15px;
+      }
 
-        .modal .inputHeader {
-            align-self: flex-start;
-            padding: 3px;
-        }
+      .modal hr {
+        width: 100%;
+        border: none;
+        height: 1px;
+        background-color: #ccc;
+      }
 
-        .modal .modalInput {
-            align-self: center;
-            flex-grow: 4;
-            min-width: 100%;
-            border-radius: 5px;
-            background-color: #EFEFEF;
-            border: none;
-            padding-left: 15px;
-        }
+      .modal .modalHeader,
+      .modal .form-btn-group {
+        flex-grow: 1;
+      }
 
-        .modal hr {
-            width: 100%;
-            border: none;
-            height: 1px;
-            background-color: #ccc;
-        }
+      .modal .modalBody {
+        flex-grow: 9;
+      }
 
-        .modal .modalHeader,
-        .modal .form-btn-group {
-            flex-grow: 1;
-        }
+      .modal .modalBody > * {
+        flex-grow: 1;
+      }
 
-        .modal .modalBody {
-            flex-grow: 9;
-        }
+      .modal .form-btn-group {
+        display: flex;
+        justify-content: flex-end;
+        width: 50%;
+        align-self: flex-end;
+        padding: 12px;
+      }
 
-        .modal .modalBody>* {
-            flex-grow: 1;
-        }
+      .form-btn-group > * {
+        margin: 0 9px;
+      }
 
+      .form-btn-group .primary-btn {
+        flex-grow: 1;
+      }
 
-        .modal .form-btn-group {
-            display: flex;
-            justify-content: flex-end;
-            width: 50%;
-            align-self: flex-end;
-            padding: 12px;
-        }
+      /* Details */
+      #modalClose {
+        width: 16px;
+      }
 
-        .form-btn-group>* {
-            margin: 0 9px;
-        }
+      /* typography */
+      @font-face {
+        font-family: "Open Sans Bold";
+        src: url("./Open_Sans/OpenSans-Bold.ttf");
+      }
 
-        .form-btn-group .primary-btn {
-            flex-grow: 1;
-        }
+      @font-face {
+        font-family: "Open Sans Regular";
+        src: url("./Open_Sans/OpenSans-Regular.ttf");
+      }
 
+      .header {
+        font-family: "Open Sans Bold";
+      }
 
+      .body {
+        font-family: "Open Sans Regular";
+      }
 
-        /* Details */
-        #modalClose {
-            width: 16px;
-        }
+      .header-large {
+        font-size: 56px;
+      }
 
-        /* typography */
-        @font-face {
-            font-family: "Open Sans Bold";
-            src: url("./Open_Sans/OpenSans-Bold.ttf");
-        }
+      .header-medium {
+        font-size: 42px;
+      }
 
-        @font-face {
-            font-family: "Open Sans Regular";
-            src: url("./Open_Sans/OpenSans-Regular.ttf");
-        }
+      .header-small {
+        font-size: 30px;
+      }
 
-        .header {
-            font-family: "Open Sans Bold";
-        }
+      .body-large {
+        font-size: 20px;
+      }
 
-        .body {
-            font-family: "Open Sans Regular";
-        }
+      .body-medium {
+        font-size: 16px;
+      }
 
-        .header-large {
-            font-size: 56px;
-        }
+      .body-small {
+        font-size: 14px;
+      }
 
-        .header-medium {
-            font-size: 42px;
-        }
-
-        .header-small {
-            font-size: 30px;
-        }
-
-        .body-large {
-            font-size: 20px;
-        }
-
-        .body-medium {
-            font-size: 16px;
-        }
-
-        .body-small {
-            font-size: 14px;
-        }
-
-        /* Common */
-        .touchTarget {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 48px;
-            height: 48px;
-        }
+      /* Common */
+      .touchTarget {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+      }
     </style>
-    <link rel="stylesheet" href="button.css">
+    <link rel="stylesheet" href="button.css" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="task">
-            <header id="title">Stay Hydrated</header>
-            <ul>
-                <li>Closer</li>
-                <li>Damn</li>
-            </ul>
-            <div>+</div>
-        </div>
+      <div class="task">
+        <header id="title">Stay Hydrated</header>
+        <ul>
+          <li>Closer</li>
+          <li>Damn</li>
+        </ul>
+        <div>+</div>
+      </div>
     </div>
     <button id="modalToggle" z-index="99">Activate Modal</button>
     <form class="modal" id="myModal">
-        <div class="modalHeader">
-            <header class="header header-small">Modal Title</header>
-            <div class="touchTarget">
-                <img src="../../../public/close@1.png" alt="close modal" srcset="" id="modalClose">
-            </div>
+      <div class="modalHeader">
+        <header class="header header-small">Modal Title</header>
+        <div class="touchTarget">
+          <img
+            src="../../../public/close@1.png"
+            alt="close modal"
+            srcset=""
+            id="modalClose"
+          />
         </div>
-        <hr>
-        <div class="modalBody">
-            <div>
-                <header class="body body-small inputHeader">Input Title: </header>
-                <input type="text" class="body body-large modalInput" name="" id="modalInput" placeholder="Placeholder">
-            </div>
+      </div>
+      <hr />
+      <div class="modalBody">
+        <div>
+          <header class="body body-small inputHeader">Input Title:</header>
+          <input
+            type="text"
+            class="body body-large modalInput"
+            name=""
+            id="modalInput"
+            placeholder="Placeholder"
+          />
         </div>
-        <hr>
-        <div class="form-btn-group">
-            <button class="btn primary-btn">Save</button>
-            <button class="btn secondary-btn">Cancel</button>
-        </div>
+      </div>
+      <hr />
+      <div class="form-btn-group">
+        <button class="btn primary-btn">Save</button>
+        <button class="btn secondary-btn">Cancel</button>
+      </div>
     </form>
-</body>
-<script>
-    const modalButton = document.getElementById("modalToggle")
-    modalButton.addEventListener("click", e => activateModal("myModal", e))
-    modalButton.click()
-    document.addEventListener("click", e => deactivateModal("myModal", e))
+  </body>
+  <script>
+    const modalButton = document.getElementById("modalToggle");
+    modalButton.addEventListener("click", (e) => activateModal("myModal", e));
+    modalButton.click();
+    document.addEventListener("click", (e) => deactivateModal("myModal", e));
 
     function activateModal(id, event) {
-        // Activate modal
-        const modal = document.getElementById(id);
-        modal.classList.add("active");
-        // blur background
-        const container = document.getElementsByClassName("container")[0];
-        container.classList.add("modalActivated")
-        event.stopPropagation();
+      // Activate modal
+      const modal = document.getElementById(id);
+      modal.classList.add("active");
+      // blur background
+      const container = document.getElementsByClassName("container")[0];
+      container.classList.add("modalActivated");
+      event.stopPropagation();
     }
 
     function deactivateModal(id, event) {
-        const target = event.target
-        const modal = document.getElementById(id);
-        if (target == document.body) {
-            modal.classList.remove("active");
-            const container = document.getElementsByClassName("container")[0];
-            container.classList.remove("modalActivated");
-        }
+      const target = event.target;
+      const modal = document.getElementById(id);
+      if (target == document.body) {
+        modal.classList.remove("active");
+        const container = document.getElementsByClassName("container")[0];
+        container.classList.remove("modalActivated");
+      }
     }
-</script>
-
+  </script>
 </html>
