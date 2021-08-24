@@ -1,12 +1,12 @@
 import React from "react";
 import "./styles/Buttons.css";
-import Modal from "./Modal"
+import Modal from "./Modal";
 import Tasks from "./Tasks";
 import database from "./database";
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       idCounter: 0,
       showModal: false,
@@ -20,7 +20,7 @@ class App extends React.Component {
     // deactive modal from Child Components
     this.deactivateModal = this.deactivateModal.bind(this);
   }
-  handleKeyDown(event) { 
+  handleKeyDown(event) {
     // TODO: on(Escape) key close modal
     // TODO: bring back preventDefaults()
     const activeEl = document.querySelector("li:focus");
@@ -34,16 +34,17 @@ class App extends React.Component {
         // Arrow Key Up
         try {
           // 1st Priority - prevSibLastChild
-          const prevSibLastChild = activeEl.previousElementSibling.firstElementChild.lastElementChild;
-          prevSibLastChild.focus()
+          const prevSibLastChild =
+            activeEl.previousElementSibling.firstElementChild.lastElementChild;
+          prevSibLastChild.focus();
         } catch {
           try {
             const prevSibEl = activeEl.previousElementSibling;
-            prevSibEl.focus()
+            prevSibEl.focus();
           } catch {
             try {
               const grandPaEl = activeEl.parentElement.parentElement;
-              grandPaEl.focus()
+              grandPaEl.focus();
             } catch {
               // Do Nothing
             }
@@ -58,17 +59,18 @@ class App extends React.Component {
         try {
           // 1st Priority - Child
           const childEl = activeEl.firstElementChild.firstElementChild;
-          childEl.focus()
+          childEl.focus();
         } catch {
           try {
             // 2nd Priority - Next Sibling
             const nextSiblingEl = activeEl.nextElementSibling;
-            nextSiblingEl.focus()
+            nextSiblingEl.focus();
           } catch {
             try {
               // 3rd Priority - grandParentSibling
-              const grandPaSibEl = activeEl.parentElement.parentElement.nextElementSibling;
-              grandPaSibEl.focus()
+              const grandPaSibEl =
+                activeEl.parentElement.parentElement.nextElementSibling;
+              grandPaSibEl.focus();
             } catch {
               // Do Nothing
             }
@@ -82,43 +84,40 @@ class App extends React.Component {
       const taskContainer = document.getElementById("taskContainer");
       if (event.keyCode === 38) {
         // Arrow Key Up
-        taskContainer.firstElementChild.lastElementChild.focus()
+        taskContainer.firstElementChild.lastElementChild.focus();
       } else if (event.keyCode === 40) {
-        taskContainer.firstElementChild.firstElementChild.focus()
+        taskContainer.firstElementChild.firstElementChild.focus();
       }
     }
-    
-  } 
+  }
 
   create = (event, parentId = null) => {
     event.stopPropagation();
     this.setState({
       showModal: true,
       mode: 1,
-      parentId: parentId
-    })
-  }
+      parentId: parentId,
+    });
+  };
   update = (event, id, title) => {
     this.setState({
       showModal: true,
       mode: 2,
       tempId: id,
       tempTitle: title,
-    })
-  }
+    });
+  };
   delete = (event, id) => {
     this.state.storage.delete(id);
     this.setState({
-      refresh: true
-    })
-  }
+      refresh: true,
+    });
+  };
 
-
-
-  deactivateModal (event) {
+  deactivateModal(event) {
     this.setState({
       showModal: false,
-    })
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -128,71 +127,82 @@ class App extends React.Component {
       tasks: state.storage.get(),
       // make this id unique
       idCounter: state.storage.getLastId() + 1,
-    }
+    };
   }
 
   render() {
     window.addEventListener("keydown", this.handleKeyDown);
     return (
       <div>
-        <div className="container" id="taskContainer" 
-        // TODO: the state will update even by a single click (even if modal is not activated )
-        onClick={(ev) => this.deactivateModal("myModal", ev)}>
-          <Tasks 
-          tasks={ this.state.tasks } 
-          onCreate= { this.create } 
-          onUpdate= {this.update }
-          onDelete= { this.delete }
-          onIndent= { this.indent }
-          onOutdent= { this.indent } 
+        <div
+          className="container"
+          id="taskContainer"
+          data-test="task-container"
+          // TODO: the state will update even by a single click (even if modal is not activated )
+          onClick={(ev) => this.deactivateModal("myModal", ev)}
+        >
+          <Tasks
+            tasks={this.state.tasks}
+            onCreate={this.create}
+            onUpdate={this.update}
+            onDelete={this.delete}
+            onIndent={this.indent}
+            onOutdent={this.indent}
           />
         </div>
-        <div className="btn-groups" onClick={(ev)=> this.deactivateModal("myModal", ev)}>
-            <button className="btn primary-btn" id="addBtn" 
-            onClick={this.create}
-              >Add New</button>
+        <div
+          className="btn-groups"
+          onClick={(ev) => this.deactivateModal("myModal", ev)}
+        >
+          <button className="btn primary-btn" id="addBtn" onClick={this.create}>
+            Add New
+          </button>
         </div>
-        { this.state.showModal &&
-          <Modal 
-            title= { this.state.mode === 1 ? 'Create Task' : 'Rename Task' } 
-            inputTitle= "task name" 
-            inputPlaceHolder= "e.g: Wash Clothes" 
-            primaryButtonTitle= { this.state.mode === 1 ? 'Create' : 'Rename' } 
-            transmitData = { this.gotData } 
+        {this.state.showModal && (
+          <Modal
+            title={this.state.mode === 1 ? "Create Task" : "Rename Task"}
+            inputTitle="task name"
+            inputPlaceHolder="e.g: Wash Clothes"
+            primaryButtonTitle={this.state.mode === 1 ? "Create" : "Rename"}
+            transmitData={this.gotData}
             // TODO: add value in updateMode
-            value= { this.state.mode === 2 ? this.state.tempTitle : '' }
-            deactivateModal= { this.deactivateModal }
+            value={this.state.mode === 2 ? this.state.tempTitle : ""}
+            deactivateModal={this.deactivateModal}
           />
-          }
+        )}
       </div>
-    )
+    );
   }
   indent = (data) => {
     this.state.storage.set(data);
     this.setState({
-      tasks: data
-    })
-  }
+      tasks: data,
+    });
+  };
   gotData = (childData) => {
-    switch (this.state.mode) { 
+    switch (this.state.mode) {
       case 1: {
         let data = [...this.state.tasks];
-        let newTask = { title: childData, timestamp: Date.now(), id: this.state.idCounter }
+        let newTask = {
+          title: childData,
+          timestamp: Date.now(),
+          id: this.state.idCounter,
+        };
         if (this.state.parentId) {
           // Append
           // Finds the parent and push newTask in it's children array
-          for (const v of data){
+          for (const v of data) {
             if (v.id === this.state.parentId) {
-                v.children.push(newTask)
+              v.children.push(newTask);
             }
           }
         } else {
           // Create
           // if its a big Task (Parent Similar), add children to its Object (for later use).
-          Object.assign(newTask, {children: []});
-          data.push(newTask)
+          Object.assign(newTask, { children: [] });
+          data.push(newTask);
         }
-        this.state.storage.set(data)
+        this.state.storage.set(data);
         break;
       }
       case 2: {
@@ -202,17 +212,17 @@ class App extends React.Component {
         let data = [...this.state.tasks];
         for (const v of data) {
           for (const cV of v.children) {
-            if (cV.id === this.state.tempId){
+            if (cV.id === this.state.tempId) {
               cV.title = childData;
               break;
             }
           }
           if (v.id === this.state.tempId) {
-            v.title = childData
+            v.title = childData;
             break;
           }
         }
-        this.state.storage.set(data)
+        this.state.storage.set(data);
         break;
       }
       default: {
@@ -225,9 +235,8 @@ class App extends React.Component {
       parentId: null,
       tempId: null,
       tempTitle: null,
-    })
-  }
+    });
+  };
 }
-
 
 export default App;
