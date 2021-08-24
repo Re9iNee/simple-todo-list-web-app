@@ -60,9 +60,9 @@ describe("basics", function () {
     cy.get("[data-test=child-task]").should("have.text", nTitle);
   });
 
-it("delete task", function () {
-    cy.get("li").contains(title).click().type('{command+backspace}')
-    cy.get('[data-test=parent-container]').should('be.empty')
+  it("delete task", function () {
+    cy.get("li").contains(title).click().type("{command+backspace}");
+    cy.get("[data-test=parent-container]").should("be.empty");
   });
 });
 
